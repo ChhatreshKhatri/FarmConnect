@@ -1,0 +1,10 @@
+hr{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 5px solid blue;
+    /* background-color: blue; */
+  }
+  .blur{
+    -webkit-filter: blur(2px);
+  }

@@ -1,0 +1,68 @@
+<div class="col-md-4 container shadow my-3 p-3">
+<h1 class="text-center">Create New Feed</h1>
+<!-- <hr class="text-center" color="blue" width="100%" /> -->
+<hr class="text-center my-3" />
+
+<form class="position-relative" [class.blur]="isModalOpen" (ngSubmit)="addFeed()">
+    <div class="form-group">
+        <label><b>Feed Name:<span class="text-danger">*</span></b></label><br>
+        <input name="Name" placeholder="Feed Name" id="FeedName" [(ngModel)]="newFeed.FeedName" required
+            class="form-control">
+        <div *ngIf="isFieldInvalid('FeedName')" class="error-message" class="text-danger">Feed Name is required</div>
+    </div>
+    <div class="form-group">
+        <label><b>Type:<span class="text-danger">*</span></b></label><br>
+        <input name="type" placeholder="Type" id="Type" class="form-control" [(ngModel)]="newFeed.Type" required>
+        <div *ngIf="isFieldInvalid('Type')" class="error-message" class="text-danger">Type is required</div>
+    </div>
+    <div class="form-group">
+        <label><b>Description:<span class="text-danger">*</span></b></label>
+        <input name="description" placeholder="description" id="Description" class="form-control"
+            [(ngModel)]="newFeed.Description" required>
+        <div *ngIf="isFieldInvalid('Description')" class="error-message" class="text-danger">Description is required
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>Quantity:<span class="text-danger">*</span></b></label><br>
+        <input name="quantity" placeholder="quantity" id="quantity" class="form-control" [(ngModel)]="newFeed.Quantity"
+            required>
+        <div *ngIf="isFieldInvalid('quantity')" class="error-message" class="text-danger">Quantity is required</div>
+
+    </div>
+    <div class="form-group">
+        <label><b>Unit:<span class="text-danger">*</span></b></label>
+        <input name="Unit" placeholder="Unit" id="Unit" class="form-control" [(ngModel)]="newFeed.Unit" required>
+        <div *ngIf="isFieldInvalid('Unit')" class="error-message" class="text-danger">Unit is required</div>
+
+    </div>
+    <div class="form-group">
+        <label><b>Price Per Unit:<span class="text-danger">*</span></b></label>
+        <input name="priceperunit" placeholder="Price Per Unit" id="priceperunit" class="form-control"
+            [(ngModel)]="newFeed.PricePerUnit" required>
+        <div *ngIf="isFieldInvalid('priceperunit')" class="error-message" class="text-danger">Price Per Unit is required
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label><b>Image<span class="text-danger">*</span></b></label><br>
+        <input name="Image" id="Image" (change)="handleFileInput($event)" type="file" required class="form-control">
+        <div *ngIf="isFieldInvalid('Image')" class="error-message" class="text-danger">Image is required</div>
+    </div>
+    <div class="form-group">
+        <br>
+        <button type="submit" class="btn btn-primary form-control" [disabled]="!isFormValid()">Submit </button>
+    </div>
+
+</form>
+</div>
+<!-- Success Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="successModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>Successfully added!</p>
+                <button type="button" class="btn btn-primary" (click)="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

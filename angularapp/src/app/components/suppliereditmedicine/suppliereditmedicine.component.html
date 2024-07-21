@@ -1,0 +1,100 @@
+<div class="col-md-4 container shadow my-3 p-3">
+
+    <h2 class="text-center">Edit Medicine</h2>
+    <hr class="text-center my-3"/>
+
+    <form class="position-relative" (submit)="updateMedicine()">
+        <img class="mx-auto d-block" height="100" [src]="medicine.Image" alt="Medicine Image">
+
+
+        <div class="form-group">
+            <label><b>Medicine Name<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.MedicineName" class="form-control" #MedicineName="ngModel" name="MedicineName"
+                required class="form-control">
+            <div *ngIf="medicine.MedicineName==''  && MedicineName.touched" class="error-message" class="text-danger">
+                Medicine Name is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Brand<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.Brand" class="form-control" #Brand="ngModel" name="Brand" required
+                class="form-control">
+            <div *ngIf="medicine.Brand=='' && Brand.touched" class="error-message" class="text-danger">Brand is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Category<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.Category" class="form-control" #Category="ngModel" name="Category" required
+                class="form-control">
+            <div *ngIf="medicine.Category==''  && Category.touched" class="error-message" class="text-danger">Category
+                is
+                required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Description<span class="text-danger">*</span></b></label><br>
+            <input type="text" [(ngModel)]="medicine.Description" class="form-control" #Description="ngModel"
+                name="Description" required class="form-control">
+            <div *ngIf="medicine.Description==''  && Description.touched" class="error-message" class="text-danger">
+                Description is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Quantity<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.Quantity" class="form-control" #Quantity="ngModel" name="Quantity" required
+                class="form-control">
+            <div *ngIf="medicine.Quantity==0  && Quantity.touched" class="error-message" class="text-danger">Quantity is
+                required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Unit<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.Unit" class="form-control" #Unit="ngModel" name="Unit" required
+                class="form-control">
+            <div *ngIf="medicine.Unit=='' && Unit.touched" class="error-message" class="text-danger">Unit is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Price Per Unit<span class="text-danger">*</span></b></label><br>
+            <input [(ngModel)]="medicine.PricePerUnit" class="form-control" #PricePerUnit="ngModel" name="PricePerUnit"
+                required class="form-control">
+            <div *ngIf="medicine.PricePerUnit==0  && PricePerUnit.touched" class="error-message" class="text-danger">
+                Price
+                Per Unit is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Image<span class="text-danger">*</span></b></label><br>
+            <input type="file" class="form-control" (change)="handleFileInput($event)">
+            <div *ngIf="!medicine.Image" class="error-message text-danger">Image is required</div>
+        </div>
+        <div class="text-danger text-center" *ngIf="message">{{message}}</div>
+        <button type="submit" class="btn btn-primary form-control" >Update Medicine</button>
+
+
+    </form>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewImageModalLabel">Updated Successfully!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="clickOk()" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

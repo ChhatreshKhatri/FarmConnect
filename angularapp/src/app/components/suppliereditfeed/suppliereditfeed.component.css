@@ -1,0 +1,12 @@
+hr {
+  border-top: 2px solid blue;
+  /* background-color: blue; */
+}
+
+.blur {
+  -webkit-filter: blur(2px);
+}
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  backdrop-filter: blur(10px); /* Blur the background */
+}

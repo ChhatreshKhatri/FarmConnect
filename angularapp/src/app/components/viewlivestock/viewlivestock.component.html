@@ -1,0 +1,59 @@
+<!-- /search bar UserId -->
+<div class="container">
+<h1 class="text-center">Livestock</h1>
+<div *ngIf="livestocks==null">
+    <p class="text-danger text-center">{{msg}}</p>
+</div>
+<table *ngIf="livestocks" class="table table-striped table-bordered ">
+    <thead>
+        <th class="bg-primary text-center">S.No</th>
+        <th class="bg-primary text-center">Name</th>
+        <th class="bg-primary text-center">Species</th>
+        <th class="bg-primary text-center">Age</th>
+        <th class="bg-primary text-center">Breed</th>
+        <th class="bg-primary text-center">Health Condition</th>
+        <th class="bg-primary text-center">Location</th>
+        <th class="bg-primary text-center">Vaccination Status</th>
+        <th class="bg-primary text-center">Action</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let l of livestocks,let i=index" class="text-center"> 
+            <td>{{i+1}}</td>
+            <td>{{l.Name}}</td>
+            <td>{{l.Species}}</td>
+            <td>{{l.Age}}</td>
+            <td>{{l.Breed}}</td>
+            <td>{{l.HealthCondition}}</td>
+            <td>{{l.Location}}</td>
+            <td>{{l.VaccinationStatus}}</td>
+            <td>
+                <button class="btn btn-success" [routerLink]="['/ownereditlivestock',l.LivestockId]">Edit</button>
+                    <button class="btn btn-danger mx-1" (click)="onDelete(l.LivestockId)"
+                        data-bs-target="#deleteModal">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<!-- Edit Modal  -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Are you sure you want to delete? </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form>
+                
+            </form>
+            <div class="modal-footer">
+                <button type="button" (click)="Delete(deleteId)" class="btn btn-danger">Yes,
+                    Delete</button>
+                <button type="button" class="btn btn-secondary" (click)="Cancel()"
+                    data-bs-dismiss="modal">Cancel</button>
+            </div>
+            <div *ngIf="deleteText" class="alert alert-danger">Cannot Delete {{deleteText}}</div>
+        </div>
+    </div>
+</div>

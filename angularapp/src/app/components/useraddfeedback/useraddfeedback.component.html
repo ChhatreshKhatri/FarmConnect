@@ -1,0 +1,13 @@
+<div class="container">
+    <h1 class="text-center">Add Feedback</h1>
+    <form (submit)="addFeedback()">
+        <div class="form-group">
+            <label class="text-center">Feedback</label><br>
+            <textarea [(ngModel)]="feedback.FeedbackText" name="feedback" id="feedback"
+                class="form-control"></textarea><br>
+            <div *ngIf="submit && feedback.FeedbackText=='' " class="text-danger">*Feedback is required</div>
+
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>

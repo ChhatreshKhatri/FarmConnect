@@ -1,0 +1,7 @@
+node_modules/
+TestProject/UnitTest1.cs
+bin
+obj
+TestProject
+.vscode
+Migrations
