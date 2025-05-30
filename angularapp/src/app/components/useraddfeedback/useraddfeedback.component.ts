@@ -5,9 +5,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 
 @Component({
-  selector: 'app-useraddfeedback',
-  templateUrl: './useraddfeedback.component.html',
-  styleUrls: ['./useraddfeedback.component.css']
+    selector: 'app-useraddfeedback',
+    templateUrl: './useraddfeedback.component.html',
+    styleUrls: ['./useraddfeedback.component.css'],
+    standalone: false
 })
 export class UseraddfeedbackComponent implements OnInit {
 

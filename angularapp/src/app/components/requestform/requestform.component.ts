@@ -15,9 +15,10 @@ import { DatePipe } from '@angular/common';
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-requestform',
-  templateUrl: './requestform.component.html',
-  styleUrls: ['./requestform.component.css']
+    selector: 'app-requestform',
+    templateUrl: './requestform.component.html',
+    styleUrls: ['./requestform.component.css'],
+    standalone: false
 })
 export class RequestformComponent implements OnInit {
 

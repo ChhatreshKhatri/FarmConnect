@@ -7,9 +7,9 @@ import { AuthService } from '../../services/auth.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-createmedicine',
-  templateUrl: './createmedicine.component.html',
-  styleUrls: ['./createmedicine.component.css']
+    selector: 'app-createmedicine',
+    templateUrl: './createmedicine.component.html',
+    styleUrls: ['./createmedicine.component.css']
 })
 export class CreatemedicineComponent implements OnInit {
 

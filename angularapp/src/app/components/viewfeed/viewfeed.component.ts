@@ -7,9 +7,10 @@ import { FeedService } from 'src/app/services/feed.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-viewfeed',
-  templateUrl: './viewfeed.component.html',
-  styleUrls: ['./viewfeed.component.css']
+    selector: 'app-viewfeed',
+    templateUrl: './viewfeed.component.html',
+    styleUrls: ['./viewfeed.component.css'],
+    standalone: false
 })
 export class ViewfeedComponent implements OnInit {
 

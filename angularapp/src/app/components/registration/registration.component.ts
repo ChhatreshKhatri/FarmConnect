@@ -6,11 +6,10 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
-  standalone: true,
-  imports: [FormsModule,CommonModule,RouterModule],
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css'],
+    imports: [FormsModule, CommonModule, RouterModule]
 })
 export class RegistrationComponent implements OnInit {
   registerModel: User = {

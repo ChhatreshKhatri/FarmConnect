@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
-  selector: 'app-viewmedicine',
-  templateUrl: './viewmedicine.component.html',
-  styleUrls: ['./viewmedicine.component.css']
+    selector: 'app-viewmedicine',
+    templateUrl: './viewmedicine.component.html',
+    styleUrls: ['./viewmedicine.component.css'],
+    standalone: false
 })
 export class ViewmedicineComponent implements OnInit {
   isModalOpen: boolean = false;

@@ -4,9 +4,10 @@ import { User } from '../../models/user.model';
 import { FeedbackService } from '../../services/feedback.service';
 
 @Component({
-  selector: 'app-adminviewfeedback',
-  templateUrl: './adminviewfeedback.component.html',
-  styleUrls: ['./adminviewfeedback.component.css']
+    selector: 'app-adminviewfeedback',
+    templateUrl: './adminviewfeedback.component.html',
+    styleUrls: ['./adminviewfeedback.component.css'],
+    standalone: false
 })
 export class AdminviewfeedbackComponent implements OnInit {
   allFeedbacks!: Feedback[];

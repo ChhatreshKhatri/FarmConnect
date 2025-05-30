@@ -8,11 +8,10 @@ import { AdminnavComponent } from '../adminnav/adminnav.component';
 import { UsernavComponent } from '../usernav/usernav.component';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [CommonModule, RouterModule, AdminnavComponent, UsernavComponent],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+    selector: 'app-navbar',
+    imports: [CommonModule, RouterModule, AdminnavComponent, UsernavComponent],
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   name$!: Observable<string>;

@@ -4,9 +4,10 @@ import { Medicine } from 'src/app/models/medicine.model';
 import { MedicineService } from 'src/app/services/medicine.service';
 declare var $: any;
 @Component({
-  selector: 'app-suppliereditmedicine',
-  templateUrl: './suppliereditmedicine.component.html',
-  styleUrls: ['./suppliereditmedicine.component.css']
+    selector: 'app-suppliereditmedicine',
+    templateUrl: './suppliereditmedicine.component.html',
+    styleUrls: ['./suppliereditmedicine.component.css'],
+    standalone: false
 })
 export class SuppliereditmedicineComponent implements OnInit {
   id: number;

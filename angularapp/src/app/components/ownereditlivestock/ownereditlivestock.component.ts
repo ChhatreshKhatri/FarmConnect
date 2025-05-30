@@ -7,9 +7,10 @@ import { LivestockService } from 'src/app/services/livestock.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-ownereditlivestock',
-  templateUrl: './ownereditlivestock.component.html',
-  styleUrls: ['./ownereditlivestock.component.css']
+    selector: 'app-ownereditlivestock',
+    templateUrl: './ownereditlivestock.component.html',
+    styleUrls: ['./ownereditlivestock.component.css'],
+    standalone: false
 })
 export class OwnereditlivestockComponent implements OnInit {
 

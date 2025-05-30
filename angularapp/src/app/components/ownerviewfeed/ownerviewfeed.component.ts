@@ -4,9 +4,10 @@ import { Feed } from 'src/app/models/feed.model';
 import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
-  selector: 'app-ownerviewfeed',
-  templateUrl: './ownerviewfeed.component.html',
-  styleUrls: ['./ownerviewfeed.component.css']
+    selector: 'app-ownerviewfeed',
+    templateUrl: './ownerviewfeed.component.html',
+    styleUrls: ['./ownerviewfeed.component.css'],
+    standalone: false
 })
 export class OwnerviewfeedComponent implements OnInit {
 

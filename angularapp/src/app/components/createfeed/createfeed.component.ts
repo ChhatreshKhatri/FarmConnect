@@ -7,9 +7,10 @@ import { FeedService } from '../../services/feed.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-createfeed',
-  templateUrl: './createfeed.component.html',
-  styleUrls: ['./createfeed.component.css'],
+    selector: 'app-createfeed',
+    templateUrl: './createfeed.component.html',
+    styleUrls: ['./createfeed.component.css'],
+    standalone: false
 })
 export class CreatefeedComponent implements OnInit {
   newFeed: Feed = {

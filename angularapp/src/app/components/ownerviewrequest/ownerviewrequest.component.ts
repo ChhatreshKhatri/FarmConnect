@@ -7,9 +7,10 @@ import { Request } from '../../models/request.model';
  
 
 @Component({
-  selector: 'app-ownerviewrequest',
-  templateUrl: './ownerviewrequest.component.html',
-  styleUrls: ['./ownerviewrequest.component.css']
+    selector: 'app-ownerviewrequest',
+    templateUrl: './ownerviewrequest.component.html',
+    styleUrls: ['./ownerviewrequest.component.css'],
+    standalone: false
 })
 export class OwnerviewrequestComponent implements OnInit {
   requests: Request[];

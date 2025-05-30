@@ -6,9 +6,10 @@ import { Request } from 'src/app/models/request.model';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
-  selector: 'app-supplierrequests',
-  templateUrl: './supplierrequests.component.html',
-  styleUrls: ['./supplierrequests.component.css']
+    selector: 'app-supplierrequests',
+    templateUrl: './supplierrequests.component.html',
+    styleUrls: ['./supplierrequests.component.css'],
+    standalone: false
 })
 export class SupplierrequestsComponent implements OnInit {
 

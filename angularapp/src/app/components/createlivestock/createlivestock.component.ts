@@ -9,11 +9,10 @@ import { FormsModule } from '@angular/forms';
 declare var $: any;
 
 @Component({
-  selector: 'app-createlivestock',
-  templateUrl: './createlivestock.component.html',
-  styleUrls: ['./createlivestock.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+    selector: 'app-createlivestock',
+    templateUrl: './createlivestock.component.html',
+    styleUrls: ['./createlivestock.component.css'],
+    imports: [CommonModule, FormsModule]
 })
 export class CreatelivestockComponent implements OnInit {
   msg!: string;

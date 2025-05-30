@@ -4,9 +4,10 @@ import { MedicineService } from 'src/app/services/medicine.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ownerviewmedicine',
-  templateUrl: './ownerviewmedicine.component.html',
-  styleUrls: ['./ownerviewmedicine.component.css']
+    selector: 'app-ownerviewmedicine',
+    templateUrl: './ownerviewmedicine.component.html',
+    styleUrls: ['./ownerviewmedicine.component.css'],
+    standalone: false
 })
 export class OwnerviewmedicineComponent implements OnInit {
 

@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
 
 declare var $: any;
 @Component({
-  selector: 'app-viewlivestock',
-  templateUrl: './viewlivestock.component.html',
-  styleUrls: ['./viewlivestock.component.css'],
-  standalone: true,
-  imports: [CommonModule, RouterModule],
+    selector: 'app-viewlivestock',
+    templateUrl: './viewlivestock.component.html',
+    styleUrls: ['./viewlivestock.component.css'],
+    imports: [CommonModule, RouterModule]
 })
 export class ViewlivestockComponent implements OnInit {
   isModalOpen: boolean = false;

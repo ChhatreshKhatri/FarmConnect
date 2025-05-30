@@ -4,9 +4,10 @@ import { Feed } from 'src/app/models/feed.model';
 import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
-  selector: 'app-suppliereditfeed',
-  templateUrl: './suppliereditfeed.component.html',
-  styleUrls: ['./suppliereditfeed.component.css']
+    selector: 'app-suppliereditfeed',
+    templateUrl: './suppliereditfeed.component.html',
+    styleUrls: ['./suppliereditfeed.component.css'],
+    standalone: false
 })
 export class SuppliereditfeedComponent implements OnInit {
 
