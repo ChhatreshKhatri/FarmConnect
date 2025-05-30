@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Medicine } from 'src/app/models/medicine.model';
-import { MedicineService } from 'src/app/services/medicine.service';
+import { Medicine } from '../../models/medicine.model';
+import { MedicineService } from '../../services/medicine.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 declare var $: any;
 
@@ -55,7 +55,7 @@ export class CreatemedicineComponent implements OnInit {
   }
 
   isFieldInvalid(control: string): boolean {
-    return (this.newMedicine[control] == '' && (this.newMedicine[control].touched || this.formSubmitted));
+    return (this.newMedicine[control].toString() == '' && (this.newMedicine[control].touched || this.formSubmitted));
   }
 
   isFormValid(): boolean {

@@ -21,7 +21,7 @@ export class CreatelivestockComponent implements OnInit {
   constructor(
     private service: LivestockService,
     private router: Router,
-    private authserice: AuthService
+    private authService: AuthService
   ) {}
 
   newLivestock: Livestock = {
@@ -39,7 +39,7 @@ export class CreatelivestockComponent implements OnInit {
   formSubmitted = false;
   isModalOpen = false;
   ngOnInit(): void {
-    this.authserice.getUserId().subscribe(
+    this.authService.getUserId().subscribe(
       (data) => {
         console.log(data);
         this.newLivestock.UserId = parseInt(data);
