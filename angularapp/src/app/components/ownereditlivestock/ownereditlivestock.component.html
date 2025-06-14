@@ -1,90 +1,98 @@
-
 <div class="col-md-4 container shadow my-3 p-3">
 
-<h1 class="text-center">Edit Livestock</h1>
+  <h1 class="text-center">Edit Livestock</h1>
 
-<hr class="text-center my-3"/>
+  <hr class="text-center my-3" />
 
-<form class ="col-md-4 container position-relative" (ngSubmit)="updateLivestock(); formSubmitted=true">
+  <form class="col-md-4 container position-relative" (ngSubmit)="updateLivestock(); formSubmitted=true">
     <div class="form-group">
-        <label><b>Name:<span class="text-danger">*</span></b></label><br>
-        <input #nCtrl="ngModel" name="Name" placeholder="Demo" id="Name" [(ngModel)]="extLivestock.Name" required class="form-control">
-        <div *ngIf="extLivestock.Name ==''  && nCtrl.touched" class="error-message" class="text-danger">Name is required</div>
+      <label for="Name"><b>Name:<span class="text-danger">*</span></b></label><br>
+      <input #nCtrl="ngModel" name="Name" placeholder="Demo" id="Name" [(ngModel)]="extLivestock.Name" required
+        class="form-control">
+      @if (isFieldInvalid('Name') && nCtrl.touched) {
+      <div class="error-message text-danger">Name is required</div>
+      }
     </div>
     <div class="form-group">
-        <label><b>Species:<span class="text-danger">*</span></b></label><br>
-        <input #sCtrl="ngModel" name="Species" placeholder="Demo" id="Species" class="form-control" [(ngModel)]="extLivestock.Species"
-            required>
-        <div *ngIf= "extLivestock.Species ==''  && sCtrl.touched" class="error-message" class="text-danger">Species is required</div>
+      <label for="Species"><b>Species:<span class="text-danger">*</span></b></label><br>
+      <input #sCtrl="ngModel" name="Species" placeholder="Demo" id="Species" class="form-control"
+        [(ngModel)]="extLivestock.Species" required>
+      @if (isFieldInvalid('Species') && sCtrl.touched) {
+      <div class="error-message text-danger">Species is required</div>
+      }
     </div>
     <div class="form-group">
-        <label><b>Age:<span class="text-danger">*</span></b></label>
-        <input #AgeCtrl="ngModel" name="Age" placeholder="Age" id="Age" class="form-control" [(ngModel)]="extLivestock.Age" required>
-        <div *ngIf="extLivestock.Age ==null && AgeCtrl.touched" class="error-message" class="text-danger">Age is required</div>
+      <label for="Age"><b>Age:<span class="text-danger">*</span></b></label>
+      <input #AgeCtrl="ngModel" name="Age" placeholder="Age" id="Age" class="form-control"
+        [(ngModel)]="extLivestock.Age" required>
+      @if (isFieldInvalid('Age') && AgeCtrl.touched) {
+      <div class="error-message text-danger">Age is required</div>
+      }
     </div>
 
     <!-- <div class="form-group">
-        <label><b>Medicine Name<span class="text-danger">*</span></b></label><br>
-        <input [(ngModel)]="medicine.MedicineName" class="form-control" #MedicineName="ngModel" name="MedicineName"
-            required class="form-control">
-        <div *ngIf="medicine.MedicineName==''  && MedicineName.touched" class="error-message" class="text-danger">
-            Medicine Name is required
-        </div>
+    <label><b>Medicine Name<span class="text-danger">*</span></b></label><br>
+    <input [(ngModel)]="medicine.MedicineName" class="form-control" #MedicineName="ngModel" name="MedicineName"
+      required class="form-control">
+      <div *ngIf="medicine.MedicineName==''  && MedicineName.touched" class="error-message" class="text-danger">
+        Medicine Name is required
+      </div>
     </div> -->
 
     <div class="form-group">
-        <label><b>Breed:<span class="text-danger">*</span></b></label><br>
-        <input #BreedCtrl="ngModel" name="Breed" placeholder="Breed" id="Breed" class="form-control" [(ngModel)]="extLivestock.Breed"
-            required>
-        <div *ngIf=" extLivestock.Breed=='' && BreedCtrl.touched " class="error-message" class="text-danger">Breed is required</div>
-
+      <label for="Breed"><b>Breed:<span class="text-danger">*</span></b></label><br>
+      <input #BreedCtrl="ngModel" name="Breed" placeholder="Breed" id="Breed" class="form-control"
+        [(ngModel)]="extLivestock.Breed" required>
+      @if (isFieldInvalid('Breed') && BreedCtrl.touched) {
+      <div class="error-message text-danger">Breed is required</div>
+      }
     </div>
-     
 
     <div class="form-group">
-        <label><b>Health Condition:<span class="text-danger">*</span></b></label>
-        <input #HealthCtrl="ngModel" name="Health" placeholder="Health Condition" id="Health" class="form-control" [(ngModel)]="extLivestock.HealthCondition" required>
-        <div *ngIf=" extLivestock.HealthCondition=='' && HealthCtrl.touched " class="error-message" class="text-danger">Health condition is required</div>
-
+      <label for="Health"><b>Health Condition:<span class="text-danger">*</span></b></label>
+      <input #HealthCtrl="ngModel" name="Health" placeholder="Health Condition" id="Health" class="form-control"
+        [(ngModel)]="extLivestock.HealthCondition" required>
+      @if (isFieldInvalid('HealthCondition') && HealthCtrl.touched) {
+      <div class="error-message text-danger">Health condition is required</div>
+      }
     </div>
     <div class="form-group">
-        <label><b>Location:<span class="text-danger">*</span></b></label>
-        <input #locCtrl="ngModel" name="location" placeholder="Location" id="location" class="form-control" [(ngModel)]="extLivestock.Location" required>
-        <div *ngIf=" extLivestock.Location==''&& locCtrl.touched" class="error-message" class="text-danger">Location is required</div>
-
+      <label for="location"><b>Location:<span class="text-danger">*</span></b></label>
+      <input #locCtrl="ngModel" name="location" placeholder="Location" id="location" class="form-control"
+        [(ngModel)]="extLivestock.Location" required>
+      @if (isFieldInvalid('Location') && locCtrl.touched) {
+      <div class="error-message text-danger">Location is required</div>
+      }
     </div>
     <div class="form-group">
-        <label><b>Vaccination Status:<span class="text-danger">*</span></b></label>
-        <input #vacCtrl="ngModel" name="vaccine" placeholder="Vaccination Status" id="vaccine" class="form-control" [(ngModel)]="extLivestock.VaccinationStatus" required>
-        <div *ngIf=" extLivestock.VaccinationStatus==''&& vacCtrl.touched " class="error-message" class="text-danger">Vaccination is required
-        </div>
-
+      <label for="vaccine"><b>Vaccination Status:<span class="text-danger">*</span></b></label>
+      <input #vacCtrl="ngModel" name="vaccine" placeholder="Vaccination Status" id="vaccine" class="form-control"
+        [(ngModel)]="extLivestock.VaccinationStatus" required>
+      @if (isFieldInvalid('VaccinationStatus') && vacCtrl.touched) {
+      <div class="error-message text-danger">Vaccination is required</div>
+      }
     </div>
-    
 
-    <div class="text-danger text-center" *ngIf="message">{{message}}</div>
-    <button type="submit" class="btn btn-primary form-control" >Submit</button>
-
-</form>
+    @if (message) {
+    <div class="text-danger text-center">{{message}}</div>
+    }
+    <button type="submit" class="btn btn-primary form-control" [disabled]="!isFormValid()">Submit</button>
+  </form>
 </div>
 
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewImageModalLabel">Successfully Added!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="clickOk()" data-bs-dismiss="modal">Ok</button>
-            </div>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewImageModalLabel">Successfully Updated!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Livestock details have been updated successfully.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="clickOk()" data-bs-dismiss="modal">Ok</button>
+      </div>
     </div>
+  </div>
 </div>
-
-
-
-   

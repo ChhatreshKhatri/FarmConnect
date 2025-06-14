@@ -1,46 +1,55 @@
 <div class="container">
-
-    <h1 class="text-center">Feedback Details</h1>
-    <hr color="blue" width="100%">
-    <div *ngIf="!allFeedbacks;else elseblock">
-        <p class="text-center">No Data Available</p>
-    </div>
-    <ng-template #elseblock>
-        <table class="table table-striped table-bordered ">
-            <thead text-center>
-                <th class="bg-primary text-center">S.No</th>
-                <th class="bg-primary text-center">User Name</th>
-            <th class="bg-primary text-center">Feedback</th>
-            <th class="bg-primary text-center">Posted Date</th>
-            <th class="bg-primary text-center">Action</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let a of allFeedbacks, let i =index" class="text-center">
-                <td>{{i+1}}</td>
-                <td>{{a.User.Username}}</td>
-                <td>{{a.FeedbackText}}</td>
-                <td>{{a.Date}}</td>
-                <td><button data-bs-toggle="modal" data-bs-target="#showuser" class="btn btn-primary" (click)="details(a.User)">Show Profile</button></td>
-            </tr>
-        </tbody>
-    </table>
-</ng-template>
+  <h2>Feedback List</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Feedback ID</th>
+        <th>Username</th>
+        <th>Message</th>
+        <th>Rating</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (feedback of feedbacks; track feedback.FeedbackId) {
+      <tr>
+        <td>{{feedback.FeedbackId}}</td>
+        <td>{{users[feedback.UserId] ? users[feedback.UserId].Username : 'Loading...'}}</td>
+        <td>{{feedback.FeedbackText}}</td>
+        <td>{{feedback.Rating}}</td>
+        <td>{{feedback.CreatedDate | date:'medium'}}</td>
+        <td>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showuser"
+            (click)="details(feedback.UserId)">Show Profile</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
-
-<div class="modal" tabindex="-1" role="dialog" id="showuser">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body text-center">
-            <div class="container">
-                User Details<br>
-                Email : {{user.Email}}<br>
-                UserName : {{user.Username}}<br>
-                Mobile Number : {{user.MobileNumber}}<br>
-                Role : {{user.UserRole}}<br>
-          </div>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-        </div>
+<!-- User Details Modal -->
+<div class="modal fade" id="showuser" tabindex="-1" aria-labelledby="showuserLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showuserLabel">User Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (selectedUser) {
+        <p><strong>Email:</strong> {{selectedUser.Email}}</p>
+        <p><strong>Username:</strong> {{selectedUser.Username}}</p>
+        <p><strong>Mobile Number:</strong> {{selectedUser.MobileNumber}}</p>
+        <p><strong>Role:</strong> {{selectedUser.UserRole}}</p>
+        } @else {
+        <p>Loading user details...</p>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div>

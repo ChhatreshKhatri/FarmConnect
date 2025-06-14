@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router,RouterModule } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
+
 import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
     styleUrls: ['./registration.component.css'],
-    imports: [FormsModule, CommonModule, RouterModule]
+    imports: [FormsModule, RouterModule]
 })
 export class RegistrationComponent implements OnInit {
   registerModel: User = {

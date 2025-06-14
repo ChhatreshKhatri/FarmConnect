@@ -1,31 +1,34 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Feedback } from '../models/feedback.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Feedback } from '../models/feedback.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
+  private apiUrl = `${environment.apiUrl}/api/feedback`;
 
-  apiUrl:string="http://localhost:8080";
+  constructor(private http: HttpClient) { }
 
-  constructor(private http:HttpClient) { }
-
-  getAllFeedbacks():Observable<Feedback[]>{
-    return this.http.get<Feedback[]>(this.apiUrl+'/api/feedback');
+  getAllFeedback(): Observable<Feedback[]> {
+    return this.http.get<Feedback[]>(this.apiUrl);
   }
 
-  getAllfeedbacksByUserId(userId:number):Observable<Feedback[]>{
-    return this.http.get<Feedback[]>(this.apiUrl+'/api/feedback/user/'+userId);
+  getFeedbackByUserId(userId: number): Observable<Feedback[]> {
+    return this.http.get<Feedback[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  addFeedback(feedback:Feedback):Observable<Feedback>{
-    return this.http.post<Feedback>(this.apiUrl+'/api/feedback',feedback);
+  addFeedback(feedback: Feedback): Observable<Feedback> {
+    return this.http.post<Feedback>(this.apiUrl, feedback);
   }
 
-  deleteFeedback(feedbackId:number):Observable<void>{
-    return this.http.delete<void>(this.apiUrl+'/api/feedback/'+feedbackId);
+  updateFeedback(feedback: Feedback): Observable<Feedback> {
+    return this.http.put<Feedback>(`${this.apiUrl}/${feedback.FeedbackId}`, feedback);
   }
-  
+
+  deleteFeedback(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

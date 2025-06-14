@@ -2,47 +2,63 @@
 <hr class="text-center" color="blue" width="100%" />
 
 <form class ="col-md-4 container position-relative" (ngSubmit)="updateFeed()">
-    <div>
-        <label><b>Feed Name:<span class="text-danger">*</span></b></label><br>
-        <input name="FeedName" id="Name" [(ngModel)]="extFeed.FeedName" required class="form-control">
-        <div *ngIf="isFieldInvalid('FeedName')" class="error-message" class="text-danger">Feed Name is required</div>
-    </div>
-    <div>
-        <label><b>Type:<span class="text-danger">*</span></b></label><br>
-        <input name="type" id="type" class="form-control" [(ngModel)]="extFeed.Type" required>
-        <div *ngIf="isFieldInvalid('Type')" class="error-message" class="text-danger">Type is required</div>
-    </div>
-    <div>
-        <label><b>Description:<span class="text-danger">*</span></b></label>
-        <input name="description" id="description" class="form-control" [(ngModel)]="extFeed.Description" required>
-        <div *ngIf="isFieldInvalid('Description')" class="error-message" class="text-danger">Description is required</div>
-    </div>
-    <div>
-        <label><b>Quantity:<span class="text-danger">*</span></b></label><br>
-        <input name="quantity" id="quantity" class="form-control" [(ngModel)]="extFeed.Quantity" required>
-        <div *ngIf="isFieldInvalid('Quantity')" class="error-message" class="text-danger">Quantity is required</div>
+  <div>
+    <label><b>Feed Name:<span class="text-danger">*</span></b></label><br>
+    <input name="FeedName" id="Name" [(ngModel)]="extFeed.FeedName" required class="form-control">
+    @if (isFieldInvalid('FeedName')) {
+      <div class="error-message" class="text-danger">Feed Name is required</div>
+    }
+  </div>
+  <div>
+    <label><b>Type:<span class="text-danger">*</span></b></label><br>
+    <input name="type" id="type" class="form-control" [(ngModel)]="extFeed.Type" required>
+    @if (isFieldInvalid('Type')) {
+      <div class="error-message" class="text-danger">Type is required</div>
+    }
+  </div>
+  <div>
+    <label><b>Description:<span class="text-danger">*</span></b></label>
+    <input name="description" id="description" class="form-control" [(ngModel)]="extFeed.Description" required>
+    @if (isFieldInvalid('Description')) {
+      <div class="error-message" class="text-danger">Description is required</div>
+    }
+  </div>
+  <div>
+    <label><b>Quantity:<span class="text-danger">*</span></b></label><br>
+    <input name="quantity" id="quantity" class="form-control" [(ngModel)]="extFeed.Quantity" required>
+    @if (isFieldInvalid('Quantity')) {
+      <div class="error-message" class="text-danger">Quantity is required</div>
+    }
 
-    </div>
-    <div>
-        <label><b>Unit:<span class="text-danger">*</span></b></label>
-        <input name="unit" id="unit" class="form-control" [(ngModel)]="extFeed.Unit" required>
-        <div *ngIf="isFieldInvalid('Unit')" class="error-message" class="text-danger">Unit is required</div>
+  </div>
+  <div>
+    <label><b>Unit:<span class="text-danger">*</span></b></label>
+    <input name="unit" id="unit" class="form-control" [(ngModel)]="extFeed.Unit" required>
+    @if (isFieldInvalid('Unit')) {
+      <div class="error-message" class="text-danger">Unit is required</div>
+    }
 
-    </div>
-    <div>
-        <label><b>Price Per Unit:<span class="text-danger">*</span></b></label>
-        <input name="PricePerUnit" id="PricePerUnit" class="form-control" [(ngModel)]="extFeed.PricePerUnit" required>
-        <div *ngIf="isFieldInvalid('PricePerUnit')" class="error-message" class="text-danger">Price per unit is required</div>
+  </div>
+  <div>
+    <label><b>Price Per Unit:<span class="text-danger">*</span></b></label>
+    <input name="PricePerUnit" id="PricePerUnit" class="form-control" [(ngModel)]="extFeed.PricePerUnit" required>
+    @if (isFieldInvalid('PricePerUnit')) {
+      <div class="error-message" class="text-danger">Price per unit is required</div>
+    }
 
-    </div>
-    <div>
-        <label><b>Image:<span class="text-danger">*</span></b></label>
-        <input type="file" name="image" id="vaccine" class="form-control"(change)="handleFileInput($event)">
-        <div *ngIf="isFieldInvalid('Image')" class="error-message" class="text-danger">Image is required</div>
+  </div>
+  <div>
+    <label><b>Image:<span class="text-danger">*</span></b></label>
+    <input type="file" name="image" id="vaccine" class="form-control"(change)="handleFileInput($event)">
+    @if (isFieldInvalid('Image')) {
+      <div class="error-message" class="text-danger">Image is required</div>
+    }
 
-    </div>
-    <div *ngIf="!message">{{message}}</div>
-    <button type="submit" class="btn btn-primary form-control">Update Feed</button>
+  </div>
+  @if (!message) {
+    <div>{{message}}</div>
+  }
+  <button type="submit" class="btn btn-primary form-control">Update Feed</button>
 
 </form>
 

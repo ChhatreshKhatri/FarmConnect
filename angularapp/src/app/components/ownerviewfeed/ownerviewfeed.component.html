@@ -1,41 +1,43 @@
 <!-- /search bar UserId -->
 <div class="container">
 
-    <h1 class="text-center">Available Feeds</h1>
-    
-    <!-- <div class="search-bar">
-        <div class="search-bar">
-            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="filterFeed()">
-        </div>
-    </div><br> -->
-    
-    <table class="table table-striped table-bordered ">
-        <thead class="head">
-            <tr class="text-center align-middle">
-                <th class="bg-primary text-center">S.No</th>
-                <th class="bg-primary text-center">Feed Name</th>
-                <th class="bg-primary text-center">Feed Type</th>
-                <th class="bg-primary text-center">Description</th>
-                <th class="bg-primary text-center">Quantity</th>
-                <th class="bg-primary text-center">Unit</th>
-                <th class="bg-primary text-center">Price Per Unit</th>
-                <th class="bg-primary text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr *ngFor="let f of feeds,let i=index" class="text-center"> 
-                <td class="align-middle">{{i+1}}</td>
-                <td class="align-middle">{{f.FeedName}}</td>
-                <td class="align-middle">{{f.Type}}</td>
-                <td class="align-middle">{{f.Description}}</td>
-                <td class="align-middle">{{f.Quantity}}</td>
-                <td class="align-middle">{{f.Unit}}</td>
-                <td class="align-middle">{{f.PricePerUnit}}</td>
-                <td>
-                    <button type="button" class="btn btn-success" [routerLink]="['/requestform','Feed',f.FeedId]">Request</button>  
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  <h1 class="text-center">Available Feeds</h1>
+
+  <!-- <div class="search-bar">
+  <div class="search-bar">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="filterFeed()">
+  </div>
+</div><br> -->
+
+<table class="table table-striped table-bordered ">
+  <thead class="head">
+    <tr class="text-center align-middle">
+      <th class="bg-primary text-center">S.No</th>
+      <th class="bg-primary text-center">Feed Name</th>
+      <th class="bg-primary text-center">Feed Type</th>
+      <th class="bg-primary text-center">Description</th>
+      <th class="bg-primary text-center">Quantity</th>
+      <th class="bg-primary text-center">Unit</th>
+      <th class="bg-primary text-center">Price Per Unit</th>
+      <th class="bg-primary text-center">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    @for (f of feeds; track f; let i = $index) {
+      <tr class="text-center">
+        <td class="align-middle">{{i+1}}</td>
+        <td class="align-middle">{{f.FeedName}}</td>
+        <td class="align-middle">{{f.Type}}</td>
+        <td class="align-middle">{{f.Description}}</td>
+        <td class="align-middle">{{f.Quantity}}</td>
+        <td class="align-middle">{{f.Unit}}</td>
+        <td class="align-middle">{{f.PricePerUnit}}</td>
+        <td>
+          <button type="button" class="btn btn-success" [routerLink]="['/requestform','Feed',f.FeedId]">Request</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
 </div>

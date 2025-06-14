@@ -6,8 +6,9 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
+    standalone: true,
     imports: [RouterOutlet, NavbarComponent]
 })
 export class AppComponent {
-  title = 'app';
+  title = 'FarmConnect';
 }

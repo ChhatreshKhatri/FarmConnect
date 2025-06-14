@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Livestock } from '../../models/livestock.model';
 import { AuthService } from '../../services/auth.service';
 import { LivestockService } from '../../services/livestock.service';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 declare var $: any;
@@ -12,10 +11,11 @@ declare var $: any;
     selector: 'app-createlivestock',
     templateUrl: './createlivestock.component.html',
     styleUrls: ['./createlivestock.component.css'],
-    imports: [CommonModule, FormsModule]
+    standalone: true,
+    imports: [FormsModule]
 })
 export class CreatelivestockComponent implements OnInit {
-  msg!: string;
+  msg: string = '';
 
   constructor(
     private service: LivestockService,
@@ -37,25 +37,27 @@ export class CreatelivestockComponent implements OnInit {
 
   formSubmitted = false;
   isModalOpen = false;
+
   ngOnInit(): void {
-    this.authService.getUserId().subscribe(
-      (data) => {
+    this.authService.getUserId().subscribe({
+      next: (data: string) => {
         console.log(data);
         this.newLivestock.UserId = parseInt(data);
       },
-      (error) => console.log(error)
-    );
+      error: (error: any) => console.log(error)
+    });
   }
+
   addLivestock() {
     this.formSubmitted = true;
     console.log(this.isFormValid());
     if (this.isFormValid()) {
       this.service.addLivestock(this.newLivestock).subscribe({
-        next: (data) => {
+        next: (data: Livestock) => {
           this.isModalOpen = true;
           $('#successModal').modal('show');
         },
-        error: (error) => {
+        error: (error: any) => {
           this.msg = error.error;
           console.log(error);
         },
@@ -66,8 +68,9 @@ export class CreatelivestockComponent implements OnInit {
     }
   }
 
-  isFieldInvalid(control: string): boolean {
-    return this.newLivestock[control] == '';
+  isFieldInvalid(control: keyof Livestock): boolean {
+    const value = this.newLivestock[control];
+    return (value === '' || value === 0) && this.formSubmitted;
   }
 
   isFormValid(): boolean {

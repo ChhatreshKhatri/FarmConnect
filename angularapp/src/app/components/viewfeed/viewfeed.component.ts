@@ -1,49 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Router } from '@angular/router';
-import { Feed } from 'src/app/models/feed.model';
-import { FeedService } from 'src/app/services/feed.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FeedService } from '../../services/feed.service';
+import { Feed } from '../../models/feed.model';
 
 declare var $: any;
 
 @Component({
     selector: 'app-viewfeed',
+    standalone: true,
+    imports: [CommonModule, RouterModule],
     templateUrl: './viewfeed.component.html',
-    styleUrls: ['./viewfeed.component.css'],
-    standalone: false
+    styleUrls: ['./viewfeed.component.css']
 })
 export class ViewfeedComponent implements OnInit {
+    feeds: Feed[] = [];
+    feedId: number = 0;
+    selectedImage: string = '';
+    isModalOpen: boolean = false;
 
-  isModalOpen:boolean=false;
+    constructor(private feedService: FeedService) { }
 
-  
-  constructor(private service:FeedService,private  router:Router) { }
+    ngOnInit(): void {
+        this.loadFeeds();
+    }
 
-  feedId:number;
-  feeds: any;
-  selectedImage: string;
-  ngOnInit(): void {
-    this.loadFeed();
-  }
-  viewImage(image: string) {
-    this.selectedImage =  image;
-  }
-  
-  loadFeed()
-  {
-    this.service.getAllFeed().subscribe(
-      data=>{this.feeds= data;
-      console.log(this.feeds)},
-      err=> console.log(err)
-    );
-}
+    loadFeeds(): void {
+        this.feedService.getFeeds().subscribe({
+            next: (data: Feed[]) => {
+                this.feeds = data;
+            },
+            error: (error: any) => {
+                console.error('Error loading feeds:', error);
+            }
+        });
+    }
 
-  delete(feedId:number){
-    this.feedId=feedId
-  }
+    onDelete(id: number): void {
+        this.feedId = id;
+        this.isModalOpen = true;
+    }
 
-  deleteconfirm(){
-    this.service.deleteFeed(this.feedId).subscribe()
-  }
+    confirmDelete(): void {
+        if (this.feedId) {
+            this.feedService.deleteFeed(this.feedId).subscribe({
+                next: () => {
+                    this.loadFeeds();
+                    this.isModalOpen = false;
+                },
+                error: (error: any) => {
+                    console.error('Error deleting feed:', error);
+                }
+            });
+        }
+    }
 
+    viewImage(image: string): void {
+        this.selectedImage = image;
+    }
 }

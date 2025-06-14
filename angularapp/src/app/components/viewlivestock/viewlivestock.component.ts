@@ -3,14 +3,15 @@ import { Router, RouterModule } from '@angular/router';
 import { Livestock } from '../../models/livestock.model';
 import { AuthService } from '../../services/auth.service';
 import { LivestockService } from '../../services/livestock.service';
-import { CommonModule } from '@angular/common';
+
 
 declare var $: any;
 @Component({
     selector: 'app-viewlivestock',
     templateUrl: './viewlivestock.component.html',
     styleUrls: ['./viewlivestock.component.css'],
-    imports: [CommonModule, RouterModule]
+    standalone: true,
+    imports: [RouterModule]
 })
 export class ViewlivestockComponent implements OnInit {
   isModalOpen: boolean = false;

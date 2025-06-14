@@ -1,35 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { Medicine } from 'src/app/models/medicine.model';
-import { MedicineService } from 'src/app/services/medicine.service';
-import { Router } from '@angular/router';
+import { Medicine } from '../../models/medicine.model';
+import { MedicineService } from '../../services/medicine.service';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-ownerviewmedicine',
-    templateUrl: './ownerviewmedicine.component.html',
-    styleUrls: ['./ownerviewmedicine.component.css'],
-    standalone: false
+  selector: 'app-ownerviewmedicine',
+  templateUrl: './ownerviewmedicine.component.html',
+  styleUrls: ['./ownerviewmedicine.component.css'],
+  standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
 })
 export class OwnerviewmedicineComponent implements OnInit {
+  UserId: number = 0;
+  medicines: Medicine[] = [];
+  medicinesMaster: Medicine[] = [];
+  medicineToDelete: Medicine = {
+    MedicineId: 0,
+    MedicineName: '',
+    Brand: '',
+    Category: '',
+    Description: '',
+    Quantity: 0,
+    Unit: '',
+    PricePerUnit: 0,
+    Image: '',
+    UserId: 0,
+  };
+  searchQuery: string = '';
 
-  UserId:number;
-  medicines:Medicine[];
-  medicinesMaster:Medicine[];
-  medicineToDelete:Medicine;
-  searchQuery:string;
+  constructor(private service: MedicineService, private router: Router) {}
 
-  constructor(private service:MedicineService,private  router:Router) { }
- 
   ngOnInit(): void {
     this.viewMedicines();
   }
 
   viewMedicines() {
     this.service.getAllMedicine().subscribe(
-      data => {
+      (data: any) => {
         this.medicinesMaster = data;
         this.filterMedicines();
       },
-      error => {
+      (error: any) => {
         console.log(error);
       }
     );
@@ -38,39 +51,37 @@ export class OwnerviewmedicineComponent implements OnInit {
     if (!this.searchQuery) {
       this.medicines = this.medicinesMaster;
     } else {
-      this.medicines = this.medicinesMaster.filter(medicine =>
-        medicine.MedicineName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        medicine.Brand.toLowerCase().includes(this.searchQuery.toLowerCase())
+      this.medicines = this.medicinesMaster.filter(
+        (medicine) =>
+          medicine.MedicineName.toLowerCase().includes(
+            this.searchQuery.toLowerCase()
+          ) ||
+          medicine.Brand.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   }
 
-  openDeleteModal(medicine: Medicine): void 
-  {
-    this.medicineToDelete=medicine;
+  openDeleteModal(medicine: Medicine): void {
+    this.medicineToDelete = medicine;
     const deleteModal: any = document.getElementById('deleteModal');
-    deleteModal.style.display= 'block';
+    deleteModal.style.display = 'block';
   }
-  closeDeleteModal():void {
-    const deleteModal :any =document.getElementById('deleteModal');
-    deleteModal.style.display ='none';
-
+  closeDeleteModal(): void {
+    const deleteModal: any = document.getElementById('deleteModal');
+    deleteModal.style.display = 'none';
   }
-  confirmDelete(): void
-  {
-    this.deleteMedicine(this.medicineToDelete.MedicineId);
+  confirmDelete(): void {
+    this.deleteMedicine(this.medicineToDelete.MedicineId!);
   }
-  deleteMedicine(id:number):void{
+  deleteMedicine(id: number): void {
     this.service.deleteMedicine(id).subscribe(
-      ()=>{
+      () => {
         this.viewMedicines();
-        this.router.navigate(['/ownerview'])
+        this.router.navigate(['/ownerview']);
       },
-      error=>
-      {
+      (error: any) => {
         console.log(error);
       }
     );
   }
- 
 }

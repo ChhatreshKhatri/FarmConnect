@@ -41,7 +41,16 @@ export class LivestockService {
 
   }
 
+  getLivestockRequests(): Observable<Livestock[]> {
+    return this.http.get<Livestock[]>(this.apiUrl + '/api/livestock/requests');
+  }
 
+  approveRequest(id: number): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/api/livestock/approve/' + id, {});
+  }
 
+  rejectRequest(id: number): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/api/livestock/reject/' + id, {});
+  }
 
 }

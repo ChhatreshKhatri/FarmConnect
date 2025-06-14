@@ -1,58 +1,64 @@
 <h1>Request Form</h1>
 
 <form class="col-md-6 container">
-    <div >
-     <label><b>Request Type <span class="text-danger">*</span></b></label><br>
-     <input type="text" name="requesttype" [ngModel]="type" class="form-control" disabled>
+  <div >
+    <label><b>Request Type <span class="text-danger">*</span></b></label><br>
+    <input type="text" name="requesttype" [ngModel]="type" class="form-control" disabled>
+  </div>
+
+
+  <div>
+    @if (type=='Feed') {
+      <label><b>Feed Name <span class="text-danger">*</span></b></label>
+    }
+    @if (type=='Medicine') {
+      <label><b>Medicine Name <span class="text-danger">*</span></b></label>
+      }<br>
+      <input type="text" name="feedname" [ngModel]="name" class="form-control" disabled>
     </div>
-    
-    
+
+
+    <div >
+      <!-- <label><b>Livestock <span class="text-danger">*</span></b></label><br>
+      <input type="number" name="livestock" placeholder="Select Livestock" class="form-control"> -->
+      <div>
+        <label><b>Livestock <span class="text-danger">*</span></b></label><br>
+        <select class="form-control" [(ngModel)]="newRequest.LivestockId" name="livestock">
+          <!-- <option value=''>Select livestock</option> -->
+          <option value="" disabled selected>Select your option</option>
+          @for (livestock of myLivestocks; track livestock) {
+            <option [value]="livestock.LivestockId">{{livestock.Name}}</option>
+          }
+        </select>
+      </div>
+    </div>
+
     <div>
-        <label *ngIf="type=='Feed'"><b>Feed Name <span class="text-danger">*</span></b></label>
-        <label *ngIf="type=='Medicine'"><b>Medicine Name <span class="text-danger">*</span></b></label><br>
-    <input type="text" name="feedname" [ngModel]="name" class="form-control" disabled>
+      <label><b> Quantity <span class="text-danger">*</span></b></label><br>
+      <input type="number" name="requesttype" placeholder="1" class="form-control" [(ngModel)]="newRequest.Quantity">
     </div>
-    
 
-    <div >
-        <!-- <label><b>Livestock <span class="text-danger">*</span></b></label><br>
-        <input type="number" name="livestock" placeholder="Select Livestock" class="form-control"> -->
-        <div>
-          <label><b>Livestock <span class="text-danger">*</span></b></label><br>
-          <select class="form-control" [(ngModel)]="newRequest.LivestockId" name="livestock">
-            <!-- <option value=''>Select livestock</option> -->
-            <option value="" disabled selected>Select your option</option>
-            <option *ngFor="let livestock of myLivestocks" [value]="livestock.LivestockId">{{livestock.Name}}</option>
-          </select>
+    <br><br>
+    <button type="button" class="btn btn-primary" (click)="onsubmit()">Submit</button>
+
+    <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+
+  </form>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-    </div>
-
-   <div>
-    <label><b> Quantity <span class="text-danger">*</span></b></label><br>
-    <input type="number" name="requesttype" placeholder="1" class="form-control" [(ngModel)]="newRequest.Quantity">
-   </div>
-
-   <br><br>
-   <button type="button" class="btn btn-primary" (click)="onsubmit()">Submit</button> 
-   
-   <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-   
-</form>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">  
-        <h5 class="modal-title" id="exampleModalLabel">Success</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Successfully Requested.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal-body">
+          Successfully Requested.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>

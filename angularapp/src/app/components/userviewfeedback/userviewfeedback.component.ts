@@ -1,49 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Feedback } from 'src/app/models/feedback.model';
-import { AuthService } from 'src/app/services/auth.service';
-import { FeedbackService } from 'src/app/services/feedback.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Feedback } from '../../models/feedback.model';
+import { AuthService } from '../../services/auth.service';
+import { FeedbackService } from '../../services/feedback.service';
 
 @Component({
     selector: 'app-userviewfeedback',
     templateUrl: './userviewfeedback.component.html',
     styleUrls: ['./userviewfeedback.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, RouterModule]
 })
 export class UserviewfeedbackComponent implements OnInit {
 
-  userId:number;
-  feedbacks:Feedback[];
-  feedbackId:number;
+  userId: number = 0;
+  feedbacks: Feedback[] = [];
+  feedbackId: number = 0;
 
-  constructor(private service:FeedbackService,private authservice:AuthService,private router:Router) { }
+  constructor(
+    private feedbackService: FeedbackService,
+    private authService: AuthService
+  ) { }
   
-  getAllfeedbacksByUserId(){
-    this.service.getAllfeedbacksByUserId(this.userId).subscribe(
-      data=>{this.feedbacks=data,
-      console.log(this.feedbacks)},
-      err=>console.log(err)
-    )
-  }
-
-  delete(deleteid:number){
-    this.feedbackId=deleteid;
-    // console.log(deleteid);
-  }
-
-  deleteconfirm(){
-    this.service.deleteFeedback(this.feedbackId).subscribe();
-    this.router.navigate(['/userviewfeedback']);
-  }
-
-
-
   ngOnInit(): void {
-    this.authservice.getUserId().subscribe(
-      data=>this.userId=+data
-    )
-    this.getAllfeedbacksByUserId();
+    this.authService.getCurrentUserId().subscribe({
+      next: (data: number) => {
+        this.userId = data;
+        this.loadFeedbacks();
+      },
+      error: (err: any) => {
+        console.error('Error getting user ID:', err);
+      }
+    });
   }
 
+  loadFeedbacks(): void {
+    this.feedbackService.getFeedbackByUserId(this.userId).subscribe({
+      next: (data: Feedback[]) => {
+        this.feedbacks = data;
+      },
+      error: (err: any) => {
+        console.error('Error loading feedbacks:', err);
+      }
+    });
+  }
 
+  delete(id: number): void {
+    this.feedbackId = id;
+  }
+
+  deleteconfirm(): void {
+    if (this.feedbackId) {
+      this.feedbackService.deleteFeedback(this.feedbackId).subscribe({
+        next: () => {
+          this.loadFeedbacks();
+          this.feedbackId = 0;
+        },
+        error: (err: any) => {
+          console.error('Error deleting feedback:', err);
+        }
+      });
+    }
+  }
 }

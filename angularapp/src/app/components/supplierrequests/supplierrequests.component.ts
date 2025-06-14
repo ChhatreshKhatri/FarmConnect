@@ -1,95 +1,80 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-//import { error } from 'console';
-import { Livestock } from 'src/app/models/livestock.model';
-import { Request } from 'src/app/models/request.model';
-import { RequestService } from 'src/app/services/request.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { LivestockService } from '../../services/livestock.service';
+import { Livestock } from '../../models/livestock.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-supplierrequests',
-    templateUrl: './supplierrequests.component.html',
-    styleUrls: ['./supplierrequests.component.css'],
-    standalone: false
+  selector: 'app-supplierrequests',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule],
+  templateUrl: './supplierrequests.component.html',
+  styleUrls: ['./supplierrequests.component.css']
 })
 export class SupplierrequestsComponent implements OnInit {
+  livestockRequests: Livestock[] = [];
+  requests: Livestock[] = [];
+  selectedLivestock: Livestock = {
+    LivestockId: 0,
+    Name: '',
+    Species: '',
+    Breed: '',
+    Age: 0,
+    Weight: 0,
+    HealthStatus: '',
+    OwnerId: 0,
+    RequestType: '',
+    Status: '',
+    Location: '',
+    UserId: 0
+  };
+  isModalOpen: boolean = false;
+  searchQuery: string = '';
 
-  constructor(private service:RequestService,private router:Router) { }
-
-  searchQuery:string;
-  requestsMaster:Request[];
-  livestock:Livestock={LivestockId:0,Name:'',Species:'',Age:0,Breed:'',HealthCondition:'',Location:'',VaccinationStatus:'',UserId:0};
-  requestId:number;
-  requests:Request[];
-  request:Request={RequestId:0,RequestType:'',MedicineId:null,FeedId:null,UserId:0,Quantity:0,Status:'',LivestockId:0,RequestDate:''};
-  
-  loadRequests(){
-    this.service.getAllRequests().subscribe(
-      data=>{
-        this.requestsMaster = data;
-        this.filterRequests();
-           
-      },
-      
-
-    )
-  }
-
-  details(livestock:Livestock){
-    this.livestock=livestock
-  }
-  
-  approve(requestId:number){
-    // console.log('in approve');
-    this.requestId=requestId;
-    this.request.RequestDate='2024-09-08';
-    this.service.getRequestById(requestId).subscribe(
-      data=>{this.request=data
-        this.request.Status="Approved";
-        console.log('in getrequest');
-        this.service.updateRequestStatus(this.requestId,this.request).subscribe(
-          data=>console.log('getobject',this.request),
-          // error=>console.log(error)
-        )},
-      error=>console.log(error)
-    )
-    
-  }
-
-  filterRequests() {
-    if (!this.searchQuery) {
-      this.requests = this.requestsMaster;
-    } else {
-      this.requests = this.requestsMaster.filter(request =>
-        request.RequestType.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-    
-      );
-    }
-  }
-
-  reject(requestId:number){
-    this.requestId=requestId;
-    this.request.RequestDate='2024-09-08';
-    this.service.getRequestById(requestId).subscribe(
-      data=>{this.request=data
-        this.request.Status="Rejected";
-        console.log('in getrequest');
-        this.service.updateRequestStatus(this.requestId,this.request).subscribe(
-          data=>console.log('getobject',this.request),
-          // error=>console.log(error)
-        )},
-      error=>console.log(error)
-    )
-    
-  }
-
-  requestStatus():string{
-    return this.request.Status
-  }
-
+  constructor(private livestockService: LivestockService) { }
 
   ngOnInit(): void {
-    this.loadRequests();
+    this.loadLivestockRequests();
   }
 
+  loadLivestockRequests(): void {
+    this.livestockService.getLivestockRequests().subscribe({
+      next: (data: Livestock[]) => {
+        this.livestockRequests = data;
+        this.requests = data;
+      },
+      error: (error: any) => {
+        console.error('Error loading livestock requests:', error);
+      }
+    });
+  }
 
+  filterRequests(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.requests = this.livestockRequests.filter(l =>
+      l.Name?.toLowerCase().includes(query) ||
+      l.Species?.toLowerCase().includes(query) ||
+      l.Breed?.toLowerCase().includes(query)
+    );
+  }
+
+  details(livestock: Livestock): void {
+    this.selectedLivestock = livestock;
+    this.isModalOpen = true;
+  }
+
+  approve(id: number): void {
+    this.livestockService.approveRequest(id).subscribe({
+      next: () => this.loadLivestockRequests(),
+      error: (error: any) => console.error('Error approving request:', error)
+    });
+  }
+
+  reject(id: number): void {
+    this.livestockService.rejectRequest(id).subscribe({
+      next: () => this.loadLivestockRequests(),
+      error: (error: any) => console.error('Error rejecting request:', error)
+    });
+  }
 }

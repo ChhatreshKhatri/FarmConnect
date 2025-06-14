@@ -10,6 +10,12 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { jwtInterceptor } from './services/jwt/jwt.interceptor';
+import { AuthService } from './services/auth.service';
+import { FeedService } from './services/feed.service';
+import { LivestockService } from './services/livestock.service';
+import { MedicineService } from './services/medicine.service';
+import { RequestService } from './services/request.service';
+import { FeedbackService } from './services/feedback.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +24,11 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideHttpClient(withInterceptors([jwtInterceptor])),
+    { provide: AuthService, useClass: AuthService },
+    { provide: FeedService, useClass: FeedService },
+    { provide: LivestockService, useClass: LivestockService },
+    { provide: MedicineService, useClass: MedicineService },
+    { provide: RequestService, useClass: RequestService },
+    { provide: FeedbackService, useClass: FeedbackService }
   ],
 };

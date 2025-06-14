@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Medicine } from 'src/app/models/medicine.model';
-import { MedicineService } from 'src/app/services/medicine.service';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { Medicine } from '../../models/medicine.model';
+import { MedicineService } from '../../services/medicine.service';
 
 declare var $: any;
 
@@ -9,38 +11,44 @@ declare var $: any;
     selector: 'app-viewmedicine',
     templateUrl: './viewmedicine.component.html',
     styleUrls: ['./viewmedicine.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, FormsModule, RouterModule]
 })
 export class ViewmedicineComponent implements OnInit {
-  isModalOpen: boolean = false;
-  searchQuery:string;
-  medicinesMaster:Medicine[];
-  medicines: Medicine[];
-  selectedImage: string;
-  deleteId: number;
-  deleteText: string;
+  isModalOpen = false;
+  searchQuery = '';
+  medicinesMaster: Medicine[] = [];
+  medicines: Medicine[] = [];
+  selectedImage = '';
+  deleteId = 0;
+  deleteText = '';
 
-  constructor(private medService: MedicineService, private router: Router) { }
+  constructor(
+    private medService: MedicineService,
+    private router: Router
+  ) { }
   
   ngOnInit(): void {
     this.loadMedicine();
   }
-  viewImage(image: string) {
+
+  viewImage(image: string): void {
     this.selectedImage = image;
   }
 
-
-  loadMedicine() {
-    this.medService.getAllMedicine().subscribe(
-      (      data: Medicine[]) => {
-        this.medicinesMaster= data;
+  loadMedicine(): void {
+    this.medService.getAllMedicine().subscribe({
+      next: (data: Medicine[]) => {
+        this.medicinesMaster = data;
         this.filterMedicines();
       },
-      (      error: any) =>{console.log(error);
+      error: (error: any) => {
+        console.error('Error loading medicines:', error);
       }
-    );
+    });
   }
-  filterMedicines() {
+
+  filterMedicines(): void {
     if (!this.searchQuery) {
       this.medicines = this.medicinesMaster;
     } else {
@@ -51,28 +59,29 @@ export class ViewmedicineComponent implements OnInit {
     }
   }
 
-  onDelete(id: number) {
-    this.isModalOpen = true;
-    this.deleteId = id;
-    $('#deleteModal').modal('show');
+  onDelete(id: number | undefined): void {
+    if (id !== undefined) {
+      this.isModalOpen = true;
+      this.deleteId = id;
+    }
   }
-  Delete(id: number) {
-    this.medService.deleteMedicine(id).subscribe(
-      (      data: any)=>{
-        this.loadMedicine();
-        this.isModalOpen = false;
-        $('#deleteModal').modal('hide');
-      },
-      (      error: { error: string; })=>{
-        console.log(error)
-        this.deleteText=error.error;
-        // this.isModalOpen = false;
-        // $('#deleteModal').modal('hide');
-      }
-    )
 
+  Delete(id: number): void {
+    if (id) {
+      this.medService.deleteMedicine(id).subscribe({
+        next: () => {
+          this.loadMedicine();
+          this.isModalOpen = false;
+        },
+        error: (error: any) => {
+          console.error('Error deleting medicine:', error);
+          this.deleteText = error.error;
+        }
+      });
+    }
   }
-  Cancel() {
+
+  Cancel(): void {
     this.isModalOpen = false;
   }
 }

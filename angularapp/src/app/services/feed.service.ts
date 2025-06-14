@@ -1,44 +1,42 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Feed } from '../models/feed.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedService {
-  private apiUrl:string="http://localhost:8080";
+  private apiUrl = `${environment.apiUrl}/api/feed`;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  addFeed(requestObject: Feed): Observable<Feed>
-  {
-    return this.http.post<Feed>(this.apiUrl+'/api/feed',requestObject,{ responseType: 'text' as 'json' });
-    
+  getAllFeed(): Observable<Feed[]> {
+    return this.http.get<Feed[]>(this.apiUrl);
   }
-  getFeedByUserID(id: number): Observable<Feed>
-  {
-    return this.http.get<Feed>(this.apiUrl+'/api/feed/user/'+id);
 
+  getFeedById(id: number): Observable<Feed> {
+    return this.http.get<Feed>(`${this.apiUrl}/${id}`);
   }
-  getFeedById(id: number): Observable<Feed>
-  {
-    return this.http.get<Feed>(this.apiUrl+'/api/feed/'+id);
 
+  addFeed(feed: Feed): Observable<Feed> {
+    return this.http.post<Feed>(this.apiUrl, feed);
   }
-  getAllFeed(): Observable<Feed[]>
-  {
-    return this.http.get<Feed[]>(this.apiUrl+'/api/feed');
 
+  updateFeed(feed: Feed): Observable<Feed> {
+    return this.http.put<Feed>(`${this.apiUrl}/${feed.FeedId}`, feed);
   }
-  deleteFeed(feedId: number): Observable<void>
-  {
-    return this.http.delete<void>(this.apiUrl+'/api/feed/'+feedId);
 
+  deleteFeed(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  updateFeed(id: number, requestObject: Feed): Observable<Feed>
-  {
-    return this.http.put<Feed>(this.apiUrl+'/api/feed/'+id,requestObject,{ responseType: 'text' as 'json' });
 
+  getFeedByUserID(id: number): Observable<Feed> {
+    return this.http.get<Feed>(`${this.apiUrl}/user/${id}`);
+  }
+
+  getFeeds(): Observable<Feed[]> {
+    return this.getAllFeed();
   }
 }

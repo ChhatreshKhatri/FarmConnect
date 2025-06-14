@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Feed } from '../../models/feed.model';
 import { AuthService } from '../../services/auth.service';
 import { FeedService } from '../../services/feed.service';
+import { FormsModule } from '@angular/forms';
 
 declare var $: any;
 
@@ -10,7 +11,8 @@ declare var $: any;
     selector: 'app-createfeed',
     templateUrl: './createfeed.component.html',
     styleUrls: ['./createfeed.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [FormsModule]
 })
 export class CreatefeedComponent implements OnInit {
   newFeed: Feed = {
@@ -22,9 +24,9 @@ export class CreatefeedComponent implements OnInit {
     Unit: '',
     PricePerUnit: 0,
     Image: '',
-    UserId: 0,
+    Brand: '',
+    Category: ''
   };
-  // newFeed1:Feed={FeedId:0,FeedName:'',Type:'',Description:'',Quantity:0,Unit:'',PricePerUnit:0,Image:'',UserId:0};
 
   constructor(
     private service: FeedService,
@@ -34,37 +36,37 @@ export class CreatefeedComponent implements OnInit {
 
   formSubmitted = false;
   isModalOpen = false;
+  userId: number = 0;
 
   ngOnInit(): void {
-    this.authservice.getUserId().subscribe(
-      (data) => {
+    this.authservice.getUserId().subscribe({
+      next: (data: string) => {
         console.log(data);
-        this.newFeed.UserId = parseInt(data);
+        this.userId = parseInt(data);
       },
-      (error) => console.log(error)
-    );
+      error: (error: any) => console.log(error)
+    });
   }
+
   addFeed() {
     this.formSubmitted = true;
     if (this.isFormValid()) {
-      this.service.addFeed(this.newFeed).subscribe(
-        (data) => {
+      this.service.addFeed(this.newFeed).subscribe({
+        next: (data: Feed) => {
           this.newFeed = data;
           console.log(data);
-          // this.router.navigate(['/viewfeed']);
           this.isModalOpen = true;
           $('#successModal').modal('show');
         },
-        (err) => console.log(err)
-      );
+        error: (error: any) => console.log(error)
+      });
     }
   }
 
   isFieldInvalid(control: keyof Feed): boolean {
-    // Now 'control' can only be a key of 'Feed'
-    return (this.newFeed[control] === '' && ( this.formSubmitted));
+    const value = this.newFeed[control];
+    return (value === '' || value === 0) && this.formSubmitted;
   }
-  
 
   isFormValid(): boolean {
     return !(
@@ -75,7 +77,8 @@ export class CreatefeedComponent implements OnInit {
       this.isFieldInvalid('Unit') ||
       this.isFieldInvalid('PricePerUnit') ||
       this.isFieldInvalid('Image') ||
-      this.isFieldInvalid('UserId')
+      this.isFieldInvalid('Brand') ||
+      this.isFieldInvalid('Category')
     );
   }
 
@@ -85,13 +88,15 @@ export class CreatefeedComponent implements OnInit {
     this.router.navigate(['/viewfeed']);
   }
 
-  handleFileInput(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.newFeed.Image = reader.result as string;
-      // console.log(this.newFeed.Image)
-    };
+  handleFileInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.newFeed.Image = reader.result as string;
+      };
+    }
   }
 }

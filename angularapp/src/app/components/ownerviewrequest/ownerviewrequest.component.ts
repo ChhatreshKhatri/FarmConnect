@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Request } from '../../models/request.model';
 
- 
-
 @Component({
     selector: 'app-ownerviewrequest',
     templateUrl: './ownerviewrequest.component.html',
@@ -13,38 +11,39 @@ import { Request } from '../../models/request.model';
     standalone: false
 })
 export class OwnerviewrequestComponent implements OnInit {
-  requests: Request[];
-  UserId: number;
-  requestId:number;
+  requests: Request[] = [];
+  UserId: number = 0;
+  requestId: number = 0;
 
   constructor(private service: RequestService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
-    this.authservice.getUserId().subscribe(
-      data=>this.UserId=+data,
-      error=>console.log(error)
-    )
-    this.loadRequests();
-  }
-  loadRequests() {
-    this.service.getRequestsByUserID(this.UserId).subscribe(
-      data => {
-        this.requests = data;
-        // console.log(this.requests);
+    this.authservice.getUserId().subscribe({
+      next: (data: string) => {
+        this.UserId = +data;
+        this.loadRequests();
       },
-      error => console.log(error)
-
-    );
+      error: (error: any) => console.log(error)
+    });
   }
 
-
-  deleteconfirm(){
-    this.service.deleteRequest(this.requestId).subscribe(
-      )
+  loadRequests() {
+    this.service.getRequestsByUserID(this.UserId).subscribe({
+      next: (data: Request[]) => {
+        this.requests = data;
+      },
+      error: (error: any) => console.log(error)
+    });
   }
+
+  deleteconfirm() {
+    this.service.deleteRequest(this.requestId).subscribe({
+      next: () => this.loadRequests(),
+      error: (error: any) => console.log(error)
+    });
+  }
+
   delete(requestId: number) {
-    this.requestId=requestId;
+    this.requestId = requestId;
   }
-
-
 }

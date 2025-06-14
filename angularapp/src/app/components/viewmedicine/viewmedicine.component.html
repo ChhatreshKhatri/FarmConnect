@@ -1,89 +1,88 @@
 <div class="container">
 
-    <h1 class="text-center">Medicine</h1>
-    <div *ngIf="medicines==null" class="text-danger text-center">No Medicines Found</div>
-    <div *ngIf="medicines">
-        <div class="search-bar">
-            <div class="search-bar">
-                <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="filterMedicines()">
-            </div>
-        </div><br>
-        <table [class.blur]="isModalOpen" class="table table-striped table-bordered ">
-            <thead class="head">
-                <tr class="text-center align-middle">
-                    <th class="bg-primary text-center">S.No</th>
-                    <th class="bg-primary text-center">Medicine Name</th>
-                    <th class="bg-primary text-center">Brand</th>
-                    <th class="bg-primary text-center">Category</th>
-                    <th class="bg-primary text-center">Description</th>
-                    <th class="bg-primary text-center">Quantity</th>
-                    <th class="bg-primary text-center">Unit</th>
-                    <th class="bg-primary text-center">Price Per Unit</th>
-                    <th class="bg-primary text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let m of medicines let i=index" class="text-center">
-                    <td>{{i+1}}</td>
-                    <td>{{m.MedicineName}}</td>
-                    <td>{{m.Brand}}</td>
-                    <td>{{m.Category}}</td>
-                    <td>{{m.Description}}</td>
-                    <td>{{m.Quantity}}</td>
-                    <td>{{m.Unit}}</td>
-                    <td>{{(m.PricePerUnit) | number}}</td>
-                    <td>
-                        <button class="btn btn-success"
-                            [routerLink]="['/suppliereditmedicine',m.MedicineId]">Edit</button>
-                        <button class="btn btn-danger mx-1" (click)="onDelete(m.MedicineId)"
-                            data-bs-target="#deleteModal">Delete</button>
-                        <button class="btn btn-primary" (click)="viewImage(m.Image)" data-bs-toggle="modal"
-                            data-bs-target="#viewImageModal">View Image</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
+  <h1 class="text-center">Medicine</h1>
+  @if (medicines === null) {
+  <div class="text-danger text-center">No Medicines Found</div>
+  }
+  @if (medicines) {
+  <div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="filterMedicines()">
+    </div><br>
+    <table [class.blur]="isModalOpen" class="table table-striped table-bordered">
+      <thead class="head">
+        <tr class="text-center align-middle">
+          <th class="bg-primary text-center">S.No</th>
+          <th class="bg-primary text-center">Medicine Name</th>
+          <th class="bg-primary text-center">Brand</th>
+          <th class="bg-primary text-center">Category</th>
+          <th class="bg-primary text-center">Description</th>
+          <th class="bg-primary text-center">Quantity</th>
+          <th class="bg-primary text-center">Unit</th>
+          <th class="bg-primary text-center">Price Per Unit</th>
+          <th class="bg-primary text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (medicine of medicines; track medicine.MedicineId; let i = $index) {
+        <tr class="text-center">
+          <td>{{i + 1}}</td>
+          <td>{{medicine.MedicineName}}</td>
+          <td>{{medicine.Brand}}</td>
+          <td>{{medicine.Category}}</td>
+          <td>{{medicine.Description}}</td>
+          <td>{{medicine.Quantity}}</td>
+          <td>{{medicine.Unit}}</td>
+          <td>{{medicine.PricePerUnit | number}}</td>
+          <td>
+            <button class="btn btn-success" [routerLink]="['/suppliereditmedicine', medicine.MedicineId]">Edit</button>
+            <button class="btn btn-danger mx-1" (click)="onDelete(medicine.MedicineId)">Delete</button>
+            <button class="btn btn-primary" (click)="viewImage(medicine.Image)">View Image</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
 </div>
 
-<!-- Edit Modal  -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Delete Medicine</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form>
-
-            </form>
-            <div class="modal-footer">
-                <button type="button" (click)="Delete(deleteId)" class="btn btn-danger">Yes,
-                    Delete</button>
-                <button type="button" class="btn btn-secondary" (click)="Cancel()"
-                    data-bs-dismiss="modal">Cancel</button>
-            </div>
-            <div *ngIf="deleteText" class="alert alert-danger">Cannot Delete {{deleteText}}</div>
-        </div>
+<!-- Delete Modal -->
+<div class="modal" [class.show]="isModalOpen" [style.display]="isModalOpen ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Medicine</h5>
+        <button type="button" class="btn-close" (click)="Cancel()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this medicine?</p>
+        @if (deleteText) {
+        <div class="alert alert-danger">Cannot Delete {{deleteText}}</div>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="Delete(deleteId)" class="btn btn-danger">Yes, Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="Cancel()">Cancel</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- View Image Modal -->
-<div class="modal fade" id="viewImageModal" tabindex="-1" aria-labelledby="viewImageModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewImageModalLabel">View Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img [src]="selectedImage" alt="Medicine Image" width="100%" height="auto">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+<div class="modal" [class.show]="selectedImage !== ''" [style.display]="selectedImage !== '' ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">View Image</h5>
+        <button type="button" class="btn-close" (click)="selectedImage = ''"></button>
+      </div>
+      <div class="modal-body">
+        <img [src]="selectedImage" alt="Medicine Image" width="100%" height="auto">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="selectedImage = ''">Close</button>
+      </div>
     </div>
+  </div>
 </div>

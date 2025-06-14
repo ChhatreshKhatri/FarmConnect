@@ -4,13 +4,13 @@ import { Login } from '../../models/login.model';
 import { AuthService } from '../../services/auth.service';
 import { JwtService } from '../../services/jwt/jwt.service';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [FormsModule, CommonModule, RouterModule]
+    imports: [FormsModule, RouterModule]
 })
 export class LoginComponent implements OnInit {
   loginModel: Login = {
