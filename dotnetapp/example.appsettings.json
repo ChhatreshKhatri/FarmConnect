@@ -9,7 +9,7 @@
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "ConStr": "User ID=sa;password=Password@01;server=DESKTOP-63GQ7I4;Database=FarmConnect;trusted_connection=false;Persist Security Info=false;encrypt=false;",
-    "AzureSQL": ""
+    "AzureSQL": "Server=tcp:<db server>,1433;Initial Catalog=FarmConnect;Persist Security Info=False;User ID=<user id>;Password=<Password>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=SqlPassword;"
   },
   "Jwt": {
     "Key": "https://links.chhatreshkhatri.com/",

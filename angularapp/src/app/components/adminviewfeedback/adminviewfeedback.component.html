@@ -4,25 +4,18 @@
     <thead>
       <tr>
         <th>Feedback ID</th>
-        <th>Username</th>
-        <th>Message</th>
-        <th>Rating</th>
+        <th>User ID</th>
+        <th>Feedback</th>
         <th>Date</th>
-        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       @for (feedback of feedbacks; track feedback.FeedbackId) {
       <tr>
         <td>{{feedback.FeedbackId}}</td>
-        <td>{{users[feedback.UserId] ? users[feedback.UserId].Username : 'Loading...'}}</td>
+        <td>{{feedback.UserId}}</td>
         <td>{{feedback.FeedbackText}}</td>
-        <td>{{feedback.Rating}}</td>
-        <td>{{feedback.CreatedDate | date:'medium'}}</td>
-        <td>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showuser"
-            (click)="details(feedback.UserId)">Show Profile</button>
-        </td>
+        <td>{{feedback.Date | date:'medium'}}</td>
       </tr>
       }
     </tbody>

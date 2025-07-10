@@ -1,12 +1,21 @@
 export interface Feed {
-    FeedId: number;
+
+    FeedId?: number;
+    
     FeedName: string;
-    Brand: string;
-    Category: string;
-    Description: string;
-    Quantity: number;
-    Unit: string;
-    PricePerUnit: number;
-    Image: string;
+    
     Type: string;
-}
+    
+    Description: string;
+    
+    Quantity: number;
+    
+    Unit: string;
+    
+    PricePerUnit: number;
+    
+    Image: string;
+    
+    UserId: number;
+    
+    }

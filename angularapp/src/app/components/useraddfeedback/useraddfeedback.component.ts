@@ -15,13 +15,12 @@ import { FeedbackService } from '../../services/feedback.service';
 })
 export class UseraddfeedbackComponent implements OnInit {
   feedback: Feedback = {
-    FeedbackId: 0,
-    UserId: 0,
-    Message: '',
-    Rating: 0,
-    CreatedDate: new Date(),
-    FeedbackText: ''
+    FeedbackText: '',
+    Date: new Date(),
+    UserId: 0
   };
+
+  formSubmitted = false;
 
   constructor(
     private feedbackService: FeedbackService,
@@ -39,7 +38,19 @@ export class UseraddfeedbackComponent implements OnInit {
     });
   }
 
+  isFieldInvalid(field: keyof Feedback): boolean {
+    const value = this.feedback[field];
+    if (value === '' && this.formSubmitted) {
+      return true;
+    }
+    return false;
+  }
+
   onSubmit(): void {
+    this.formSubmitted = true;
+    if (this.feedback.FeedbackText.trim() === '') {
+      return;
+    }
     this.feedbackService.addFeedback(this.feedback).subscribe({
       next: (data: Feedback) => {
         this.feedback = data;

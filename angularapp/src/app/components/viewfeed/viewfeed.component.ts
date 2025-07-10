@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FeedService } from '../../services/feed.service';
 import { Feed } from '../../models/feed.model';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -18,8 +19,9 @@ export class ViewfeedComponent implements OnInit {
     feedId: number = 0;
     selectedImage: string = '';
     isModalOpen: boolean = false;
+    feedIdToDelete: number = 0;
 
-    constructor(private feedService: FeedService) { }
+    constructor(private feedService: FeedService, private router: Router) { }
 
     ngOnInit(): void {
         this.loadFeeds();
@@ -36,14 +38,17 @@ export class ViewfeedComponent implements OnInit {
         });
     }
 
-    onDelete(id: number): void {
-        this.feedId = id;
-        this.isModalOpen = true;
+    onEdit(feedId: number): void {
+        this.router.navigate(['/suppliereditfeed', feedId]);
+    }
+
+    onDelete(feedId: number): void {
+        this.feedIdToDelete = feedId;
     }
 
     confirmDelete(): void {
-        if (this.feedId) {
-            this.feedService.deleteFeed(this.feedId).subscribe({
+        if (this.feedIdToDelete) {
+            this.feedService.deleteFeed(this.feedIdToDelete).subscribe({
                 next: () => {
                     this.loadFeeds();
                     this.isModalOpen = false;

@@ -5,3 +5,4 @@ obj
 TestProject
 .vscode
 Migrations
+dotnetapp/appsettings.json

@@ -1,11 +1,21 @@
 export interface Request {
-    RequestId: number;
+
+    RequestId:number;
+
     RequestType: string;
-    MedicineId: number | null;
-    FeedId: number | null;
+    
+    MedicineId: number;
+    
+    FeedId: number;
+    
     UserId: number;
+    
     Quantity: number;
+    
     Status: string;
+    
     LivestockId: number;
-    RequestDate: string;
-}
+    
+    RequestDate: string; // ISO 8601 formatted date string
+    
+    }

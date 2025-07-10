@@ -11,15 +11,19 @@
       <thead text-center>
         <th class="bg-primary text-center">S.No</th>
         <th class="bg-primary text-center">Feedback</th>
+        <th class="bg-primary text-center">Date</th>
         <th class="bg-primary text-center">Action</th>
       </thead>
       <tbody>
         @for (a of feedbacks; track a; let i = $index) {
         <tr class="text-center">
           <td>{{i+1}}</td>
-          <td>{{a['FeedbackText']}}</td>
-          <td><button (click)="delete(a['FeedbackId'])" data-bs-toggle="modal" data-bs-target="#deleteModal"
-              class="btn btn-danger">Delete</button></td>
+          <td>{{a.FeedbackText}}</td>
+          <td>{{a.Date | date:'medium'}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="delete(a.FeedbackId || 0)" data-bs-toggle="modal"
+              data-bs-target="#deleteModal">Delete</button>
+          </td>
         </tr>
         }
       </tbody>

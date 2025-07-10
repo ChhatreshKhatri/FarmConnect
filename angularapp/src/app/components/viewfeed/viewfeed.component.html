@@ -25,9 +25,8 @@
         <td class="align-middle">{{f.Unit}}</td>
         <td class="align-middle">{{f.PricePerUnit}}</td>
         <td>
-          <button class="btn btn-success" [routerLink]="['/suppliereditfeed',f.FeedId]">Edit</button>
-          <button class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal"
-            (click)="onDelete(f.FeedId)">Delete</button>
+          <button class="btn btn-primary" (click)="onEdit(f.FeedId || 0)">Edit</button>
+          <button class="btn btn-danger" (click)="onDelete(f.FeedId || 0)">Delete</button>
           <button class="btn btn-primary" (click)="viewImage(f.Image)" data-bs-toggle="modal"
             data-bs-target="#viewImageModal">Show Image</button>
         </td>

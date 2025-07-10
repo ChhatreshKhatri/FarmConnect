@@ -30,8 +30,8 @@ export class RequestformComponent implements OnInit {
   newRequest: Request = {
     RequestId: 0,
     RequestType: '',
-    MedicineId: null,
-    FeedId: null,
+    MedicineId: 0,
+    FeedId: 0,
     UserId: 0,
     Quantity: 0,
     Status: 'Pending',

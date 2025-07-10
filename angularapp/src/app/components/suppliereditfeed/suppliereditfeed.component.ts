@@ -14,8 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class SuppliereditfeedComponent implements OnInit {
 
   id: number = 0;
-  extFeed: Feed = {
-    FeedId: 0,
+  feed: Feed = {
     FeedName: '',
     Type: '',
     Description: '',
@@ -23,8 +22,7 @@ export class SuppliereditfeedComponent implements OnInit {
     Unit: '',
     PricePerUnit: 0,
     Image: '',
-    Brand: '',
-    Category: ''
+    UserId: 0
   };
   // extFeed1: Feed = { FeedId: 0, FeedName: '', Type: '', Description: '', Quantity: 0, Unit: '', PricePerUnit: 0.0, Image: '', UserId: 0 };
   message: string = '';
@@ -39,8 +37,8 @@ export class SuppliereditfeedComponent implements OnInit {
         this.id = params['id'];
         this.service.getFeedById(this.id).subscribe(
           (data: Feed) => {
-            this.extFeed = data;
-            console.log(this.extFeed)
+            this.feed = data;
+            console.log(this.feed)
             // this.extFeed1 = data
           },
           (error: any) => console.log(error)
@@ -51,7 +49,7 @@ export class SuppliereditfeedComponent implements OnInit {
 
   }
   updateFeed() {
-    this.service.updateFeed(this.extFeed).subscribe({
+    this.service.updateFeed(this.feed).subscribe({
       next: (data: Feed) => {
         console.log(data);
         this.router.navigate(['/viewfeed']);
@@ -64,7 +62,7 @@ export class SuppliereditfeedComponent implements OnInit {
   }
 
   isFieldInvalid(control: keyof Feed): boolean {
-    const value = this.extFeed[control];
+    const value = this.feed[control];
     if (value === '' && (this.formSubmitted)) {
       return true;
     }
@@ -90,7 +88,7 @@ export class SuppliereditfeedComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.extFeed.Image = reader.result as string;
+        this.feed.Image = reader.result as string;
         // console.log(this.medicine.Image)
       };
     }

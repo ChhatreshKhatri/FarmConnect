@@ -1,8 +1,11 @@
-export interface Feedback {
-    FeedbackId: number;
-    UserId: number;
-    Message: string;
-    Rating: number;
-    CreatedDate: Date;
-    FeedbackText: string;
-}
+export class Feedback {
+
+    FeedbackId?: number;
+    
+    UserId!: number;
+    
+    FeedbackText!: string;
+    
+    Date!: Date;
+    
+    }

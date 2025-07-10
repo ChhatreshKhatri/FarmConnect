@@ -16,7 +16,6 @@ declare var $: any;
 })
 export class CreatefeedComponent implements OnInit {
   newFeed: Feed = {
-    FeedId: 0,
     FeedName: '',
     Type: '',
     Description: '',
@@ -24,8 +23,7 @@ export class CreatefeedComponent implements OnInit {
     Unit: '',
     PricePerUnit: 0,
     Image: '',
-    Brand: '',
-    Category: ''
+    UserId: 0
   };
 
   constructor(
@@ -76,9 +74,7 @@ export class CreatefeedComponent implements OnInit {
       this.isFieldInvalid('Quantity') ||
       this.isFieldInvalid('Unit') ||
       this.isFieldInvalid('PricePerUnit') ||
-      this.isFieldInvalid('Image') ||
-      this.isFieldInvalid('Brand') ||
-      this.isFieldInvalid('Category')
+      this.isFieldInvalid('Image')
     );
   }
 
@@ -98,5 +94,14 @@ export class CreatefeedComponent implements OnInit {
         this.newFeed.Image = reader.result as string;
       };
     }
+  }
+
+  isFormInvalid(): boolean {
+    return this.isFieldInvalid('FeedName') ||
+      this.isFieldInvalid('Type') ||
+      this.isFieldInvalid('Description') ||
+      this.isFieldInvalid('Quantity') ||
+      this.isFieldInvalid('Unit') ||
+      this.isFieldInvalid('PricePerUnit');
   }
 }
