@@ -52,9 +52,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_395AB8640C5F4BC5BF985FADE2A1B2D8 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9265B36638B742ABB1223B32D2F1BFE0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_320E76BCBE5B4644961964CC8A3A91BB }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_93660D406A804AFC8F7FC3D0B7DE08A8 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_15DED5A943C04227A3E0619FD4D064DE }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FA37E4EE929F422FB5E93A62050BE349 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -63,3 +63,4 @@ jobs:
           app-name: 'FarmConnect'
           slot-name: 'Production'
           package: .
+          
