@@ -1,0 +1,1 @@
+Server=tcp:farm-connect.database.windows.net,1433;Initial Catalog=FarmConnect;Persist Security Info=False;User ID=farmadmin;Password=Farm@2025;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=SqlPassword;
