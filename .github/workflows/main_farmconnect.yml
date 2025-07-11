@@ -21,7 +21,7 @@ jobs:
 
     - name: 🔧 Build and publish
       run: |
-        cd FarmConnect/dotnetapp
+        cd FarmConnect
         dotnet publish -c Release -o ./publish
 
     - name: 🚀 Deploy to Azure Web App
@@ -30,4 +30,4 @@ jobs:
         app-name: 'FarmConnect'
         slot-name: 'Production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: FarmConnect/dotnetapp/publish
+        package: FarmConnect/publish
