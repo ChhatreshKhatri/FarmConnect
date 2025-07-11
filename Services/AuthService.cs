@@ -46,7 +46,7 @@ namespace dotnetapp.Services
                     return (1, "User created successfully!");
                 }
                 string message = string.Join(", ", result.Errors.Select(x => x.Description));
-                
+
                 return (0, message);
             }
             return (0, "User creation failed! Please check user details and try again");
@@ -72,12 +72,17 @@ namespace dotnetapp.Services
         }
         public async Task<string> GenerateToken(User user)
         {
+            var now = DateTime.UtcNow; // Use UTC time
+
             var claims = new[]
             {
-                new Claim("role", user.UserRole),
-                new Claim("name",user.Username),
-                new Claim("userId",user.UserId.ToString())
-            };
+        new Claim("role", user.UserRole),
+        new Claim("name", user.Username),
+        new Claim("userId", user.UserId.ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat,
+            new DateTimeOffset(now).ToUnixTimeSeconds().ToString(),
+            ClaimValueTypes.Integer64) // Add explicit issued at time
+    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -86,22 +91,12 @@ namespace dotnetapp.Services
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"],
                 claims,
-                expires: DateTime.Now.AddMinutes(30),
+                notBefore: now, // Add this for better security
+                expires: now.AddMinutes(30), // Changed to UTC and explicit 30 minutes
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-            // var tokenDescriptor=new SecurityTokenDescriptor{
-            //     Issuer=_configuration["Jwt:Issuer"],
-            //     Audience=_configuration["Jwt:Issuer"],
-            //     Expires=DateTime.UtcNow.AddHours(1),
-            //     SigningCredentials=creds,
-            //     Subject=new ClaimsIdentity(claims)
-            // };
-            // var tokenHandler=new JwtSecurityTokenHandler();
-            // var token= tokenHandler.CreateToken(tokenDescriptor);
-            // return tokenHandler.WriteToken(token);
-
         }
     }
 }
