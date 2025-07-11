@@ -21,13 +21,17 @@ Finally, run the project:
 - dotnet run
 - Navigate to `http://localhost:8080/swagger` in your web browser to view the application.
 
-## Angular Frontend
-To run Angular website, you will need to have the following software installed on your machine:
-- Node.js
-- Angular 18
+## Next.js Frontend
+To run the Next.js frontend application, you will need to have Node.js installed on your machine.
+
+Frontend Repository: [FarmConnect-Next.jsApp](https://github.com/ChhatreshKhatri/FarmConnect-Next.jsApp)
 
 To start the project, follow these steps:
-- cd angularapp
+- Clone the frontend repository: `git clone https://github.com/ChhatreshKhatri/FarmConnect-Next.jsApp.git`
+- cd FarmConnect-Next.jsApp
 - npm install
-- ng serve
-- Navigate to `http://localhost:8081` in your web browser to view the application.
+- Create a `.env.local` file and set `NEXT_PUBLIC_API_URL=http://localhost:8080` (or your API URL)
+- npm run dev
+- Navigate to `http://localhost:3000` in your web browser to view the application.
+
+**Note:** The Next.js frontend requires this Web API backend to be running. Make sure to start the Web API first, then configure the frontend to point to the correct API endpoint.
