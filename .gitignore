@@ -5,6 +5,7 @@ obj
 TestProject
 .vscode
 Migrations
+azuredb.txt
 
 # compiled output
 /dist

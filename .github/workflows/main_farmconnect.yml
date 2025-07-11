@@ -11,23 +11,25 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: 📁 Checkout code
-      uses: actions/checkout@v4
+      - name: 📁 Checkout code
+        uses: actions/checkout@v4
 
-    - name: 🛠️ Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x'
+      - name: 🛠️ Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
 
-    - name: 🔧 Build and publish
-      run: |
-        cd FarmConnect
-        dotnet publish -c Release -o ./publish
+      - name: � Restore dependencies
+        run: dotnet restore
 
-    - name: 🚀 Deploy to Azure Web App
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: 'FarmConnect'
-        slot-name: 'Production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: FarmConnect/publish
+      - name: �🔧 Build and publish
+        run: |
+          dotnet publish FarmConnect-WebApi.csproj -c Release -o ./publish --no-restore
+
+      - name: 🚀 Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "FarmConnect-WebApi"
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
