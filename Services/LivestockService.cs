@@ -18,19 +18,19 @@ namespace dotnetapp.Services
         }
         public async Task<IEnumerable<Livestock>> GetAllLivestocks()
         {
-            return _context.Livestocks.ToList();
+            return await _context.Livestocks.Include(l => l.User).ToListAsync();
         }
 
         // Retrieves a livestock record from the database with the specified livestockId
-        public async Task<Livestock> GetLivestockById(int livestockId)
+        public async Task<Livestock?> GetLivestockById(int livestockId)
         {
-            return await _context.Livestocks.FindAsync(livestockId);
+            return await _context.Livestocks.Include(l => l.User).FirstOrDefaultAsync(l => l.LivestockId == livestockId);
         }
 
         // Retrieves and returns all livestock records from the database associated with the specified userId
         public async Task<IEnumerable<Livestock>> GetLivestocksByUserId(string userId)
         {
-            return await _context.Livestocks.Where(l => l.UserId == userId).ToListAsync();
+            return await _context.Livestocks.Include(l => l.User).Where(l => l.UserId == userId).ToListAsync();
         }
 
         // Adds a new livestock to the database if it doesn't already exist

@@ -20,12 +20,12 @@ namespace dotnetapp.Services
 
         public async Task<IEnumerable<Request>> GetAllRequests()
         {
-            return await _context.Requests.Include(r => r.Feed).Include(r => r.Medicine).Include(r => r.Livestock).ToListAsync();
+            return await _context.Requests.Include(r => r.User).Include(r => r.Feed).Include(r => r.Medicine).Include(r => r.Livestock).ToListAsync();
         }
 
-        public async Task<Request> GetRequestById(int requestId)
+        public async Task<Request?> GetRequestById(int requestId)
         {
-            return await _context.Requests.FindAsync(requestId);
+            return await _context.Requests.Include(r => r.User).Include(r => r.Feed).Include(r => r.Medicine).Include(r => r.Livestock).FirstOrDefaultAsync(r => r.RequestId == requestId);
         }
 
         public async Task<bool> AddRequest(Request request)
@@ -53,7 +53,7 @@ namespace dotnetapp.Services
 
         public async Task<IEnumerable<Request>> GetRequestByuserId(string userId)
         {
-            return await _context.Requests.Where(r => r.UserId == userId).Include(r => r.Feed).Include(r => r.Medicine).ToListAsync();
+            return await _context.Requests.Include(r => r.User).Where(r => r.UserId == userId).Include(r => r.Feed).Include(r => r.Medicine).Include(r => r.Livestock).ToListAsync();
         }
 
         //Check this function

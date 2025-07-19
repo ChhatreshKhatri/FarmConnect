@@ -19,19 +19,19 @@ namespace dotnetapp.Services
         // Retrieves and returns all feeds from the database
         public async Task<IEnumerable<Feed>> GetAllFeeds()
         {
-            return await _context.Feeds.ToListAsync();
+            return await _context.Feeds.Include(f => f.User).ToListAsync();
         }
 
         // Retrieves a feed from the database with the specified feedId
-        public async Task<Feed> GetFeedById(int feedId)
+        public async Task<Feed?> GetFeedById(int feedId)
         {
-            return await _context.Feeds.FindAsync(feedId);
+            return await _context.Feeds.Include(f => f.User).FirstOrDefaultAsync(f => f.FeedId == feedId);
         }
 
         // Retrieves and returns all feeds from the database with the specified userId
         public async Task<IEnumerable<Feed>> GetFeedsByUserId(string userId)
         {
-            return await _context.Feeds.Where(f => f.UserId == userId).ToListAsync();
+            return await _context.Feeds.Include(f => f.User).Where(f => f.UserId == userId).ToListAsync();
         }
 
         // Adds a new feed to the database if it doesn't already exist

@@ -19,13 +19,11 @@ namespace dotnetapp.Services
         }
         public async Task<IEnumerable<Feedback>> GetAllFeedbacks()
         {
-            IEnumerable<Feedback> feedbacks = _context.Feedbacks.Include(f => f.User);
-            return feedbacks;
+            return await _context.Feedbacks.Include(f => f.User).ToListAsync();
         }
         public async Task<IEnumerable<Feedback>> GetFeedbacksByUserId(string userId)
         {
-            IEnumerable<Feedback> feedbacks = _context.Feedbacks.Where(f => f.UserId == userId);
-            return feedbacks;
+            return await _context.Feedbacks.Include(f => f.User).Where(f => f.UserId == userId).ToListAsync();
         }
         public async Task<bool> AddFeedback(Feedback feedback)
         {
@@ -35,7 +33,7 @@ namespace dotnetapp.Services
         }
         public async Task<bool> DeleteFeedback(int feedbackId)
         {
-            Feedback feedback = _context.Feedbacks.FirstOrDefault(f => f.FeedbackId == feedbackId);
+            Feedback? feedback = _context.Feedbacks.FirstOrDefault(f => f.FeedbackId == feedbackId);
             if (feedback != null)
             {
                 _context.Feedbacks.Remove(feedback);

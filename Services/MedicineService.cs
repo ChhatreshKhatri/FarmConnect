@@ -19,15 +19,15 @@ namespace dotnetapp.Services
 
         public async Task<IEnumerable<Medicine>> GetAllMedicines()
         {
-            return await _context.Medicines.ToListAsync();
+            return await _context.Medicines.Include(m => m.User).ToListAsync();
         }
-        public async Task<Medicine> GetMedicineById(int medicineId)
+        public async Task<Medicine?> GetMedicineById(int medicineId)
         {
-            return await _context.Medicines.FindAsync(medicineId);
+            return await _context.Medicines.Include(m => m.User).FirstOrDefaultAsync(m => m.MedicineId == medicineId);
         }
         public async Task<IEnumerable<Medicine>> GetMedicinesByUserId(string userId)
         {
-            return await _context.Medicines.Where(m => m.UserId == userId).ToListAsync();
+            return await _context.Medicines.Include(m => m.User).Where(m => m.UserId == userId).ToListAsync();
         }
         public async Task<bool> AddMedicine(Medicine medicine)
         {
