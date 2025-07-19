@@ -56,7 +56,7 @@ public class FeedController : ControllerBase
     // Retrieves and returns all feeds with the specified userId
     [HttpGet("user/{userId}")]
     [Authorize(Roles = "Supplier,Owner")]
-    public async Task<ActionResult<IEnumerable<Feed>>> GetFeedsByUserId(int userId)
+    public async Task<ActionResult<IEnumerable<Feed>>> GetFeedsByUserId(string userId)
     {
         try
         {

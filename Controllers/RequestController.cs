@@ -27,12 +27,12 @@ namespace dotnetapp.Controllers
                 var requests = await _requestService.GetAllRequests();
                 return Ok(requests);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500,ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
-       
+
 
         [HttpGet("{requestId}")]
         [Authorize(Roles = "Supplier,Owner")]
@@ -56,7 +56,7 @@ namespace dotnetapp.Controllers
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "Supplier,Owner")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequestByuserId(int userId)
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestByuserId(string userId)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace dotnetapp.Controllers
         }
         [HttpGet("user/{userId}/medicines-or-feeds")]
         [Authorize(Roles = "Supplier,Owner")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsByuserIdMedicineOrFeed(int userId)
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsByuserIdMedicineOrFeed(string userId)
         {
             try
             {

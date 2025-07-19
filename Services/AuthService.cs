@@ -28,7 +28,7 @@ namespace dotnetapp.Services
         }
         public async Task<(int, string)> Registration(User model, string role)
         {
-            ApplicationUser user = new ApplicationUser() { Name = "Name", UserName = model.Username, Email = model.Email, PhoneNumber = model.MobileNumber };
+            ApplicationUser user = new ApplicationUser() { Name = model.Username, UserName = model.Username, Email = model.Email, PhoneNumber = model.MobileNumber };
             var exstUser = await userManager.FindByEmailAsync(model.Email);
             if (exstUser != null) return (0, "User already exists.");
             if (UserRoles.Owner == role || UserRoles.Supplier == role)
@@ -36,8 +36,6 @@ namespace dotnetapp.Services
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _context.Users.AddAsync(model);
-                    await _context.SaveChangesAsync();
                     if (!await roleManager.RoleExistsAsync(role))
                     {
                         await roleManager.CreateAsync(new IdentityRole(role));
@@ -53,11 +51,10 @@ namespace dotnetapp.Services
         }
         public async Task<(int, string)> Login(LoginModel model)
         {
-            var exstUser = await userManager.FindByEmailAsync(model.Email);
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            if (exstUser != null)
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null)
             {
-                var result = await userManager.CheckPasswordAsync(exstUser, model.Password);
+                var result = await userManager.CheckPasswordAsync(user, model.Password);
                 if (result)
                 {
                     string token = await GenerateToken(user);
@@ -70,21 +67,23 @@ namespace dotnetapp.Services
             }
             return (0, "Invalid Email");
         }
-        public async Task<string> GenerateToken(User user)
+        public async Task<string> GenerateToken(ApplicationUser user)
         {
             var now = DateTime.UtcNow; // Use UTC time
+            var userRoles = await userManager.GetRolesAsync(user);
+            var role = userRoles.FirstOrDefault() ?? "User";
 
             var claims = new[]
             {
-        new Claim("role", user.UserRole),
-        new Claim("name", user.Username),
-        new Claim("userId", user.UserId.ToString()),
+        new Claim("role", role),
+        new Claim("name", user.UserName ?? ""),
+        new Claim("userId", user.Id),
         new Claim(JwtRegisteredClaimNames.Iat,
             new DateTimeOffset(now).ToUnixTimeSeconds().ToString(),
             ClaimValueTypes.Integer64) // Add explicit issued at time
     };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(

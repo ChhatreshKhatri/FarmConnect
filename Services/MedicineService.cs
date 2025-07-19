@@ -25,7 +25,7 @@ namespace dotnetapp.Services
         {
             return await _context.Medicines.FindAsync(medicineId);
         }
-        public async Task<IEnumerable<Medicine>> GetMedicinesByUserId(int userId)
+        public async Task<IEnumerable<Medicine>> GetMedicinesByUserId(string userId)
         {
             return await _context.Medicines.Where(m => m.UserId == userId).ToListAsync();
         }

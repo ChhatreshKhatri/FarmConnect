@@ -109,11 +109,11 @@ using (var scope = app.Services.CreateScope())
 
     if (await dbContext.Database.CanConnectAsync())
     {
-        logger.LogInformation("✅ Successfully connected to Azure SQL Database.");
+        logger.LogInformation("✅ Successfully connected to Database.");
     }
     else
     {
-        logger.LogError("❌ Failed to connect to Azure SQL Database.");
+        logger.LogError("❌ Failed to connect to Database.");
     }
 }
 

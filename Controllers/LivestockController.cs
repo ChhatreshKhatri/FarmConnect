@@ -50,7 +50,7 @@ namespace dotnetapp.Controllers
 
         // Retrieves and returns all livestock associated with the specified userId from the database
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Livestock>>> GetLivestocksByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<Livestock>>> GetLivestocksByUserId(string userId)
         {
             try
             {
@@ -76,13 +76,13 @@ namespace dotnetapp.Controllers
                 var result = await _livestockService.AddLivestock(livestock);
                 if (result)
                 {
-                    return Ok(new {message="Livestock added successfully"});
+                    return Ok(new { message = "Livestock added successfully" });
                 }
-                return StatusCode(500, new {message="Failed to add livestock"});
+                return StatusCode(500, new { message = "Failed to add livestock" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new {message=ex.Message});
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
@@ -95,13 +95,13 @@ namespace dotnetapp.Controllers
                 var result = await _livestockService.UpdateLivestock(livestockId, livestock);
                 if (result)
                 {
-                    return Ok(new {message="Livestock updated successfully"});
+                    return Ok(new { message = "Livestock updated successfully" });
                 }
-                return NotFound(new {message="Cannot find any livestock with the specified ID"});
+                return NotFound(new { message = "Cannot find any livestock with the specified ID" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new {message=ex.Message});
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
@@ -114,9 +114,9 @@ namespace dotnetapp.Controllers
                 var result = await _livestockService.DeleteLivestock(livestockId);
                 if (result)
                 {
-                    return Ok(new {message="Livestock deleted successfully"});
+                    return Ok(new { message = "Livestock deleted successfully" });
                 }
-                return NotFound(new {message="Cannot find any livestock with the specified ID"});
+                return NotFound(new { message = "Cannot find any livestock with the specified ID" });
             }
             catch (Exception ex)
             {

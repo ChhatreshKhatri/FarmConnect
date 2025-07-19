@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using dotnetapp.Services;
 using dotnetapp.Models;
 using Microsoft.AspNetCore.Authorization;
-using dotnetapp.Exceptions; 
+using dotnetapp.Exceptions;
 
 namespace dotnetapp.Controllers
 {
@@ -62,7 +62,7 @@ namespace dotnetapp.Controllers
             try
             {
                 var result = await _medicineService.AddMedicine(medicine);
-                
+
                 if (result)
                 {
                     return Ok("Medicine added successfully");
@@ -100,7 +100,7 @@ namespace dotnetapp.Controllers
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "Supplier")]
-        public async Task<ActionResult<IEnumerable<Medicine>>> GetMedicinesByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<Medicine>>> GetMedicinesByUserId(string userId)
         {
             try
             {

@@ -5,24 +5,27 @@ FarmConnect is a comprehensive livestock management platform that simplifies far
 ## 🚀 Features
 
 ### 🔐 Authentication & Authorization
+
 - JWT-based authentication with secure token management
 - Role-based access control (Owner/Supplier roles)
 - ASP.NET Core Identity integration
 - Protected API endpoints
 
 ### 📋 Core Functionality
+
 - **Livestock Management**: Track and manage livestock records (Owner role)
-- **Medicine Management**: Create, edit, and manage medicine inventory
-- **Feed Management**: Handle feed products and inventory tracking
+- **Medicine Management**: Create, edit, and manage medicine inventory (Supplier role)
+- **Feed Management**: Handle feed products and inventory tracking (Supplier role)
 - **Request System**: Submit and manage resource requests between roles
 - **Feedback System**: Customer feedback and supplier response management
 
 ## 🛠️ Tech Stack
 
 - **Framework**: ASP.NET Core 8.0
-- **Database**: SQL Server 2022
+- **Database**: SQL Server 2022 / Azure SQL Database
 - **ORM**: Entity Framework Core 8.0
-- **Authentication**: JWT Bearer Tokens
+- **Authentication**: ASP.NET Core Identity + JWT Bearer Tokens
+- **User Management**: ASP.NET Identity
 - **API Documentation**: Swagger/OpenAPI
 - **Architecture**: RESTful API with Repository pattern
 
@@ -39,12 +42,14 @@ FarmConnect is a comprehensive livestock management platform that simplifies far
 ├── Data/                 # Database Context
 │   └── ApplicationDbContext.cs
 ├── Models/               # Entity Models
-│   ├── ApplicationUser.cs
+│   ├── ApplicationUser.cs    # ASP.NET Identity User Model
+│   ├── User.cs              # Frontend-compatible User Model
 │   ├── Feed.cs
 │   ├── Feedback.cs
 │   ├── Livestock.cs
 │   ├── Medicine.cs
 │   ├── Request.cs
+│   ├── LoginModel.cs
 │   └── UserRoles.cs
 ├── Services/             # Business Logic Layer
 ├── Migrations/           # EF Core Migrations
@@ -60,21 +65,25 @@ FarmConnect is a comprehensive livestock management platform that simplifies far
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/ChhatreshKhatri/FarmConnect-WebApi.git
 cd FarmConnect-WebApi
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 dotnet restore
 dotnet tool restore
 ```
 
 ### 3. Configure Database Connection
+
 Update the connection string in `appsettings.json` based on your database choice:
 
 **For Local SQL Server:**
+
 ```json
 {
   "ConnectionStrings": {
@@ -84,6 +93,7 @@ Update the connection string in `appsettings.json` based on your database choice
 ```
 
 **For Azure SQL Database:**
+
 ```json
 {
   "ConnectionStrings": {
@@ -95,25 +105,30 @@ Update the connection string in `appsettings.json` based on your database choice
 > **Note**: The application uses the `AzureSQL` connection string by default. If you want to use local SQL Server, update `Program.cs` to use `ConStr` instead.
 
 ### 4. Run Database Migrations
+
 ```bash
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
 ### 5. Build and Run
+
 ```bash
 dotnet build
 dotnet run
 ```
 
 ### 6. Access the API
+
 - **Swagger UI**: Navigate to `http://localhost:8080/swagger`
 - **API Base URL**: `http://localhost:8080`
 
 ## 🔧 Configuration
 
 ### JWT Settings
+
 Configure JWT authentication in `appsettings.json`:
+
 ```json
 {
   "Jwt": {
@@ -124,54 +139,66 @@ Configure JWT authentication in `appsettings.json`:
 ```
 
 ### User Roles
-The application supports two user roles:
+
+The application supports two user roles managed through ASP.NET Identity:
+
 - **Owner**: Can manage livestock, view medicines/feeds, submit requests
 - **Supplier**: Can manage medicine/feed inventory, handle requests
+
+### Database Schema
+
+- **AspNetUsers**: Primary user table
+- **AspNetRoles**: Role definitions (Owner, Supplier)
+- **AspNetUserRoles**: User-role assignments
+- **Entity Tables**: All entities reference AspNetUsers.Id as foreign key
 
 ## 📚 API Endpoints
 
 ### Authentication
-- `POST /api/Authentication/login` - User login
-- `POST /api/Authentication/register` - User registration
+
+- `POST /api/register` - User registration
+- `POST /api/login` - User login (returns JWT)
 
 ### Livestock Management (Owner Role)
-- `GET /api/Livestock` - Get all livestock
-- `POST /api/Livestock` - Create new livestock record
-- `PUT /api/Livestock/{id}` - Update livestock record
-- `DELETE /api/Livestock/{id}` - Delete livestock record
 
-### Medicine Management
-- `GET /api/Medicine` - Get all medicines
-- `POST /api/Medicine` - Create new medicine (Supplier)
-- `PUT /api/Medicine/{id}` - Update medicine (Supplier)
-- `DELETE /api/Medicine/{id}` - Delete medicine (Supplier)
+- `GET /api/livestock` - Get all livestock
+- `GET /api/livestock/user/{userId}` - Get livestock by user ID
+- `POST /api/livestock` - Create new livestock record
+- `PUT /api/livestock/{id}` - Update livestock record
+- `DELETE /api/livestock/{id}` - Delete livestock record
 
-### Feed Management
-- `GET /api/Feed` - Get all feeds
-- `POST /api/Feed` - Create new feed (Supplier)
-- `PUT /api/Feed/{id}` - Update feed (Supplier)
-- `DELETE /api/Feed/{id}` - Delete feed (Supplier)
+### Medicine Management (Supplier Role)
+
+- `GET /api/medicine` - Get all medicines
+- `GET /api/medicine/user/{userId}` - Get medicines by user ID
+- `POST /api/medicine` - Create new medicine (Supplier)
+- `PUT /api/medicine/{id}` - Update medicine (Supplier)
+- `DELETE /api/medicine/{id}` - Delete medicine (Supplier)
+
+### Feed Management (Supplier Role)
+
+- `GET /api/feed` - Get all feeds
+- `GET /api/feed/user/{userId}` - Get feeds by user ID
+- `POST /api/feed` - Create new feed (Supplier)
+- `PUT /api/feed/{id}` - Update feed (Supplier)
+- `DELETE /api/feed/{id}` - Delete feed (Supplier)
 
 ### Request System
-- `GET /api/Request` - Get requests
-- `POST /api/Request` - Submit new request
-- `PUT /api/Request/{id}` - Update request status
+
+- `GET /api/request` - Get requests
+- `GET /api/request/user/{userId}` - Get requests by user ID
+- `POST /api/request` - Submit new request
+- `PUT /api/request/{id}` - Update request status
 
 ### Feedback System
-- `GET /api/Feedback` - Get feedback
-- `POST /api/Feedback` - Submit feedback
-- `PUT /api/Feedback/{id}` - Update feedback
+
+- `GET /api/feedback` - Get feedback
+- `GET /api/feedback/user/{userId}` - Get feedback by user ID
+- `POST /api/feedback` - Submit feedback
+- `DELETE /api/feedback/{id}` - Delete feedback
 
 ## 🌐 Frontend Application
 
 This API powers the FarmConnect Next.js frontend application.
 
 **Frontend Repository**: [FarmConnect-Next.jsApp](https://github.com/ChhatreshKhatri/FarmConnect-Next.jsApp)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request

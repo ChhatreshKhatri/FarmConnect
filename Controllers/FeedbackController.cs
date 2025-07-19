@@ -6,7 +6,7 @@ using dotnetapp.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using dotnetapp.Models;
 using dotnetapp.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer; 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -23,11 +23,13 @@ namespace dotnetapp.Controllers
             _service = service;
         }
         [HttpGet]
-        [Authorize(Roles="Owner,Supplier")]
+        [Authorize(Roles = "Owner,Supplier")]
         // [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacks(){
-            try{
-                IEnumerable<Feedback> feedbacks=await _service.GetAllFeedbacks();
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacks()
+        {
+            try
+            {
+                IEnumerable<Feedback> feedbacks = await _service.GetAllFeedbacks();
                 return Ok(feedbacks);
             }
             catch (Exception ex)
@@ -37,7 +39,7 @@ namespace dotnetapp.Controllers
         }
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "Supplier,Owner")]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacksByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacksByUserId(string userId)
         {
             try
             {
@@ -58,7 +60,7 @@ namespace dotnetapp.Controllers
                 if (ModelState.IsValid)
                 {
                     bool var = await _service.AddFeedback(feedback);
-                    if (var) return CreatedAtAction(nameof(AddFeedback), feedback,"Feedback added successfully");
+                    if (var) return CreatedAtAction(nameof(AddFeedback), feedback, "Feedback added successfully");
                     return BadRequest();
                 }
                 return BadRequest();
